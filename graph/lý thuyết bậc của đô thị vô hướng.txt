@@ -1,0 +1,28 @@
+(*) chỉ áp dụng cho đồ thị vô hướng:
+
+- bậc của đỉnh bất kì trên đồ thị là số cạnh liên thuộc của cạnh đó
+- kí hiệu là deg(đỉnh)
+- quy ước:
+	+) đỉnh có bậc 0 đc gọi là đỉnh cô lập
+	+) đỉnh có bậc 1 đc gọi là đỉnh treo
+- định lý: độ thị vô hướng bất kì có m cạnh <=> deg của đồ thị đó
+bằng tổng deg tất cả các đỉnh = 2.m
+
+(*) chỉ áp dụng cho đồ thị vô hướng
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,8 @@
+- bán bậc của đỉnh: bán bậc ra của đỉnh bất kì trên đồ thị là số cung của
+đồ thị đi ra khỏi đỉnh
+- kí hiệu là deg+(đỉnh)
+
+- bán bậc vào của đỉnh bất kì trên đồ thị là số cung của đồ thị đi vào đỉnh
+- kí hiệu là deg-(đỉnh)
+
+- định lý: trong đồ thị có hướng, tổng bán bậc ra = tổng bán bậc của đỉnh = số lượng cạnh

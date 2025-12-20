@@ -1,0 +1,33 @@
+(*) đồ thị vô hướng không trọng số
+- ma trận kề: với đồ thị vô hướng, ma trận kề của đồ thị n đỉnh có kích thước n x n, value a[i][j] thưởng là 0/1
+- a[i][j] = 1 nếu cạnh i, j là 1 cạnh của đồ thị
+- a[i][j] = 0 nếu cạnh i, j ko là 1 cạnh của đồ thị
+- tính chât là ma trận đối xứng, tổng phàn tử trên ma trận bằng 2 lần số cạnh, tổng các phần tử trên hàng / cột u là deg của u
+
+
+
+(*) đô thị có hướng không trọng số
+- ma trận kề: với đồ thị có hướng, ma trận kề của đồ thị n đỉnh có kích thước n x n, value a[i][j] thưởng là 0/1
+- a[i][j] = 1. Tức là đó là 1 cạnh của đồ thị, có hướng từ đỉnh i đến đỉnh j
+- a[i][j] = 0. Tức là đó ko à 1 cạnh của đồ thị.
+- tính chất: có thể ko đối xứng, 
+	+) tổng các phần tử của ma trận bằng số cạnh.
+	+) tổng các phần tử trên 1 hâng thứ u là bán bậc ra của đỉnh u
+	+) tỏng các phần tử trên 1 cột thứ u là bán bậc bao của đỉnh u
+
+
+(*) đô thị có hướng có trọng số
+- ma trận trọng số: mỗi cạnh của đồ thị đc gán một trọng số, giả sử cạnh e = (u, v) có trọng số là c(u, v). ma trận trọng số c = c[i][j], với i, j là 1 cạnh của đồ thị, c[i][j] = 0 / vô cùng / âm vô cùng /.... nếu i, j không là cạnh của đồ thị
+
+(*) đô thị vô hướng có trọng số
+- tương tự như ma trận không trọng số nhưng khi này cặp i, j mang giá trị của trọng số giữ 2 đỉnh u, v có thể khác 0, 1
+
+
+
+(*) tốn bộ nhớ
+
+
+
+
+
+

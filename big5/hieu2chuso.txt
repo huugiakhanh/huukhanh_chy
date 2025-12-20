@@ -1,0 +1,62 @@
+void xuli(str &a) {
+    ll idx = -1;
+    FOR(i, a.size()) {
+        if (a[i] != '0') {
+            idx = i;
+            break;
+        }
+    }
+    if (idx == -1 || a.empty()) a = "0";
+    else {
+        a.erase(0, idx);
+    }
+}
+ll check1(str a, str b) {
+    if (a == b) return 0;
+    if (a.size() != b.size()) {
+        if (a.size() > b.size()) return 1;
+        else return -1;
+    } else {
+        if (a > b) return 1;
+        else return -1;
+    }
+}
+
+str hieu2so(str a, str b) {
+    ll as = a.size(); ll bs = b.size();
+    b = str(as - bs, '0') + b;
+    vll res(as); ll nho = 0;
+    fornghich(i, as - 1, 0, 1) {
+        ll x = a[i] - '0';
+        ll y = b[i] - '0' + nho;
+        if (x < y) {
+            x += 10; nho = 1;
+        } else {
+            nho = 0;
+        }
+        res[i] = x - y;
+    }
+    str ress;
+    FOR(i, res.size()) ress.pb(res[i] + '0');
+    xuli(ress);
+    return ress;
+}
+
+
+int main() {
+    fastIO();
+    if (fopen("TEST.INP", "r")) {
+        freopen("TEST.INP", "r", stdin);
+        freopen("TEST.OUT", "w", stdout);
+    }
+
+    str a, b; cin >> a >> b;
+    xuli(a); xuli(b);
+    cout << tong2so(a, b) << '\n';
+    if (check1(a, b) == 1 || check1(a, b) == 0) {
+        cout << hieu2so(a, b) << '\n';
+    } else {
+        cout << "-" << hieu2so(b, a) << '\n';
+    }
+    return 0;
+}

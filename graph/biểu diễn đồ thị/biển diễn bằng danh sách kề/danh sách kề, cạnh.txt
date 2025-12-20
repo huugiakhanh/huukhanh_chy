@@ -1,0 +1,2 @@
+- dùng cho đồ thị thưa, tiết kiệm bộ nhớ, dùng cho các bài toán chỉ liên quan đến cạnh đồ thị
+- khi cần duyệt các đỉnh kề với đỉnh nào đó, cần duyệt tất cả các cạnh =>  nhiều bước tính toán hơn tệ nhất o(n) phép tính

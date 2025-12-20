@@ -1,5 +1,5 @@
 (*) toán tử bit có các tính chất: 
         +) giao hoán (a & b = b & a) và kết hợp (a & b) & c = a & (b & c)
         +) tính chất với 0: a & 0 = 0, a | 0 = a, a ^ 0 = a
-        +) 
+        +) kiểm tra bit thứ n có được bật hay không x & (1 << k) nếu = 1 là bật = 0 là không bật
     

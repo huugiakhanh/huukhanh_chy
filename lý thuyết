@@ -1,0 +1,5 @@
+(*) toán tử bit có các tính chất: 
+        +) giao hoán (a & b = b & a) và kết hợp (a & b) & c = a & (b & c)
+        +) tính chất với 0: a & 0 = 0, a | 0 = a, a ^ 0 = a
+        +) 
+    

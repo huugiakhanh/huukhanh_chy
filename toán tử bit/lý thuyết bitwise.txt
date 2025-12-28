@@ -1,0 +1,9 @@
+(*) toán tử bit có các tính chất: 
+        +) giao hoán (a & b = b & a) và kết hợp (a & b) & c = a & (b & c)
+        +) tính chất với 0: a & 0 = 0, a | 0 = a, a ^ 0 = a
+        +) kiểm tra bit thứ n có được bật hay không:  x & (1 << n) nếu = 1 là bật = 0 là không bật
+        +) bật bit thứ n:  x | (1 << n)
+        +) tắt bit thứ n:  x & ~(1 << n)
+        +) đảo bit thứ n:  x ^ (1 << k)
+        +) tính chất xor: (a ^ b) ^ c = a ^ (b ^ c). VD: kiểm tra array thiếu phần từ nào 1 đến n; 0 ^ a[1 --> n] <=> res
+        +) a & ~a = 0 và a | ~a = -1

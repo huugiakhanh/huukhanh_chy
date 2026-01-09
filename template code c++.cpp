@@ -13,7 +13,6 @@
 // #pragma GCC target("bmi,bmi2")
 // #pragma GCC target("popcnt,lzcnt")
 
-#define TASK "name"
 #define FOR(i, n) for(long long (i) = 0; (i) < (n); ++(i))
 #define forr(i, l, r, k) for (long long i = (l); i <= (r); i += (k))
 #define rfor(i, r, l, k) for (long long i = (r); i >= (l); i -= (k))
@@ -23,6 +22,8 @@
 #define for_Cout(a, char) for (auto c : (a)) cout << c << char;
 #define REV(s) reverse((s).begin(), (s).end())
 #define mset(a, valueptr) memset(a, valueptr, sizeof a)
+#define BIT(x, i) ((x) >> (i) & 1)
+#define MASK(i) (1ll << (i))
 #define F first
 #define S second
 #define pub push_back
@@ -33,10 +34,16 @@
 #define vstr vector<string>
 #define v(struct) vector<struct>
 #define vvll vector<vector<long long>>
+#define TASK "name"
+
+template<typename... value> void intall(value&... valueofvalue) { ((std::cin >> valueofvalue), ...); }
+template<typename... value> void outall(char valueofchar, const value&... valueofvalue) { ((std::cout << valueofvalue << valueofchar), ...); std::cout << '\n'; }
 
 using namespace std;
 
 constexpr long long MOD1 = 1000000007LL;
+constexpr long long MOD2 = 1000000009LL;
+constexpr long long INF = 1000000000000000000LL;
 
 typedef char cr;
 typedef string str;
@@ -73,8 +80,3 @@ signed main() {
 // #pragma pack(push, 1)
 // struct ten { bien; bien };
 // #pragma pack(pop)
-
-
-
-
-

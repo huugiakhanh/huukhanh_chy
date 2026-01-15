@@ -1,0 +1,5 @@
+deque: hàng đợi 2 đầu
+- là một cấu trúc dữ liệu cho phép thêm (push) và xóa (pop) các phần tử ở cả hai đầu (đầu trước và đầu sau) một cách hiệu quả, 
+kết hợp tính năng của cả ngăn xếp (stack) và hàng đợi (queue)
+- hiệu suất: Các thao tác thêm/xóa ở hai đầu thường có độ phức tạp thời gian là O(1)
+

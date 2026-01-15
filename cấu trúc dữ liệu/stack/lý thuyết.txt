@@ -1,0 +1,3 @@
+stack: ngăn xếp
+- hoạt động theo nguyên tắc Vào sau, ra trước (LIFO - Last-In, First-Out), giống như một chồng đĩa.
+- bigO các thao tác là O(1)

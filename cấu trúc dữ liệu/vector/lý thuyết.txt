@@ -1,0 +1,19 @@
+vector: mảng động
+- là một mảng động (dynamic array) thuộc Thư viện Mẫu Chuẩn (STL), cho phép lưu trữ các phần tử cùng kiểu dữ liệu, 
+có thể tự động thay đổi kích thước (thêm/xóa) linh hoạt và truy cập ngẫu nhiên hiệu quả thông qua chỉ số hoặc iterator, 
+quản lý bộ nhớ tự động, lý tưởng cho việc thay thế mảng truyền thống
+(*) các hàm:
+front()		Truy cập phần tử đầu tiên trong vector
+back()          Truy cập phần tử cuối cùng trong vector
+size()	        Trả về kích thước của vector
+empty()	        Kiểm tra vector rỗng trả về true, ngược lại trả về false
+resize() 	Thay đổi kích thước của vector
+push_back()	Thêm phần tử vào cuối vector
+emplace_back()	Thêm phần tử vào cuối vector
+pop_back()	Xóa phần tử cuối cùng trong vector
+insert()	Chèn phần tử vào vị trí bất kỳ trong vector
+erase()		Xóa phần tử khỏi vị trí bất kỳ trong vector
+clear()		Xóa toàn bộ phần tử trong vector
+assign()	Gán giá trị cho phần tử trong vector
+swap()		Hoán đổi 2 vector
+- bigO từ O(1) đến O(n)  

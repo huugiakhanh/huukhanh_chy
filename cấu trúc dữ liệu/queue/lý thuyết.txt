@@ -1,0 +1,5 @@
+queue: hàng đợi
+- là một cấu trúc dữ liệu và khái niệm trong tin học hoạt động theo nguyên tắc FIFO (First-In, First-Out), 
+nghĩa là phần tử nào vào trước thì được xử lý/lấy ra trước, giống như người đến trước trong hàng chờ được phục vụ trước
+- dùng trong: thuật toán tìm kiếm theo chiều rộng (BFS - Breadth-First Search) sử dụng hàng đợi để duyệt cây/đồ thị.
+- bigO thường là O(1) ở tất cả các hàng

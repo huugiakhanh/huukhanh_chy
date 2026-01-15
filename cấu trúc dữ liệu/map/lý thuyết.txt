@@ -1,0 +1,21 @@
+- map, unordered_map, và multimap trong C++ đều lưu cặp khóa-giá trị, nhưng khác nhau về thứ tự và độ phức tạp: map (dựa trên cây) sắp xếp theo khóa, 
+unordered_map (dựa trên bảng băm) không sắp xếp và có hiệu suất trung bình nhanh nhất (O(1)), còn multimap cũng sắp xếp nhưng cho phép khóa trùng lặp. 
+(*) map:
+	Cấu trúc: Cây tìm kiếm nhị phân tự cân bằng (thường là Red-Black Tree).
+	Thứ tự: Các phần tử được lưu trữ theo thứ tự tăng dần của khóa.	
+	Độ phức tạp (trung bình): O(log n) cho các thao tác (tìm kiếm, chèn, xóa).
+	Đặc điểm: Khóa phải là duy nhất. 
+(*) unoedered_map:
+	Cấu trúc: Bảng băm (Hash Table).
+	Thứ tự: Không có thứ tự (không sắp xếp).
+	Độ phức tạp (trung bình): O(1) lý tưởng cho các thao tác, nhưng có thể O(n) trong trường hợp xấu nhất (va chạm băm).
+	Đặc điểm: Khóa phải là duy nhất. 
+(*) multimap:
+	Cấu trúc: Tương tự map (dựa trên cây).
+	Thứ tự: Các phần tử được sắp xếp theo khóa tăng dần.
+	Độ phức tạp: Tương tự map, (O(log n).
+	Đặc điểm: Cho phép các khóa trùng lặp. 
+
+(*) các thao tác đơn giản đã biết
+count: trả về số lượng key
+find: trả về iterator nếu key tồn tại và end() nếu ko tồn tại

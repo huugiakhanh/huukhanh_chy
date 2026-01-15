@@ -1,0 +1,20 @@
+unordered_set, multiset, set.
+- là các container lưu trữ phần tử, khác nhau ở chỗ: set và multiset lưu trữ phần tử có thứ tự (thường là tăng dần, dùng cây cân bằng), 
+còn unordered_set không có thứ tự (dùng bảng băm), set chỉ chứa phần tử duy nhất, multiset cho phép trùng lặp, và unordered_set cũng chỉ 
+chứa duy nhất nhưng tốc độ truy cập trung bình rất nhanh O(1). 
+(*) set:
+	Mô tả: Lưu trữ các phần tử duy nhất và được sắp xếp theo thứ tự tăng dần (hoặc thứ tự tùy chỉnh).
+	Cấu trúc dữ liệu: Thường được cài đặt bằng cây binary search tree cân bằng (ví dụ: Red-Black Tree).
+	Độ phức tạp (trung bình/tệ nhất): Thêm/Xóa/Tìm kiếm: O(log N).
+	Ưu điểm: Duy trì thứ tự, các hàm tìm kiếm như lower_bound, upper_bound có sẵn. 
+(*) unordered_set:
+	Mô tả: Lưu trữ các phần tử duy nhất, nhưng thứ tự không được đảm bảo (không sắp xếp).
+	Cấu trúc dữ liệu: Dùng hash table (bảng băm).
+	Độ phức tạp (trung bình/tệ nhất): Thêm/Xóa/Tìm kiếm: O(1) (trung bình), nhưng O(N) (trường hợp xấu nhất).
+	Ưu điểm: Cực kỳ nhanh cho các thao tác cơ bản nhờ băm.
+	Nhược điểm: Không có thứ tự, không có lower_bound, upper_bound. 
+(*) multiset:
+	Mô tả: Giống set, nhưng cho phép lưu trữ các phần tử trùng lặp.
+	Cấu trúc dữ liệu: Cũng dùng cây cân bằng (Red-Black Tree).
+	Độ phức tạp (trung bình/tệ nhất): Thêm/Xóa/Tìm kiếm: O(log N).
+	Ưu điểm: Cho phép nhiều phần tử giống nhau, vẫn giữ thứ tự và có các hàm tìm kiếm. 

@@ -48,6 +48,7 @@ constexpr long long INF = 1000000000000000000LL;
 typedef char cr;
 typedef string str;
 typedef long long ll;
+typedef unsigned long long ull;
 typedef double db;
 typedef bool bl;
 typedef long double ldb;
@@ -59,6 +60,7 @@ inline long long luythua(long long a, long long b) { long long res = 1; while (b
 inline long long giathua(long long num) { unsigned long long res = 1; forr(i, 2, num, 1) res *= i; return res; }
 inline long long luythualaydu (long long a, long long b, long long mod) { long long res = 1; a = a % mod; while (b > 0) { if (b & 1) { res = (res * a) % mod; } a = (a * a) % mod; b >>= 1; } return res; }
 inline long long giathualaydu (long long num, long long mod) { unsigned long long res = 1; forr(i, 2, num, 1) res = (res * i) % mod; return res; }
+
 
 signed main() {
     fastIO();

@@ -2,6 +2,8 @@
 #include <bits/stdc++.h>
 
 // #pragma GCC optimize("Ofast", "Os")
+// #pragma GCC optimize("O2")
+// #pragma GCC optimize("O3")
 // #pragma GCC optimize("inline",)
 // #pragma GCC optimize("fast-math",)
 // #pragma GCC optimize("unroll-loops")
@@ -22,8 +24,9 @@
 #define for_Cout(a, char) for (auto c : (a)) cout << c << char;
 #define REV(s) reverse((s).begin(), (s).end())
 #define mset(a, valueptr) memset(a, valueptr, sizeof a)
-#define BIT(x, i) ((x) >> (i) & 1)
+#define biton(x, i) ((x) >> (i) & 1)
 #define MASK(i) (1ll << (i))
+#define TIME cerr << "Time: " << 1.0 * clock() / CLOCKS_PER_SEC << "s\n";
 #define F first
 #define S second
 #define pub push_back
@@ -61,7 +64,13 @@ inline long long giathua(long long num) { unsigned long long res = 1; forr(i, 2,
 inline long long luythualaydu (long long a, long long b, long long mod) { long long res = 1; a = a % mod; while (b > 0) { if (b & 1) { res = (res * a) % mod; } a = (a * a) % mod; b >>= 1; } return res; }
 inline long long giathualaydu (long long num, long long mod) { unsigned long long res = 1; forr(i, 2, num, 1) res = (res * i) % mod; return res; }
 
+void input() noexcept(false) {
 
+}
+void output() noexcept(false) {
+
+    TIME;
+}
 signed main() {
     fastIO();
     if (fopen(TASK".INP", "r")) {
@@ -69,7 +78,7 @@ signed main() {
         freopen(TASK".OUT", "w", stdout);
     }
 
-    
+    input(); output();
     return 0;
 }
 // __attribute__((constructor)) void auto00() { fastIO(); }

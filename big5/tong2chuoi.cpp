@@ -19,7 +19,7 @@ str conghaichuoi(str a, str b) {
         res[i + 1] = tong % 10;
         nho = tong / 10;
     }
-    // a[0] = nho;
+    res[0] = nho;
     str ress = "";
     for (ll i = 0; i <= an; i++) ress += cr(res[i] + '0');
     xuli(ress);

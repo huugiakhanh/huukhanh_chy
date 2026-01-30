@@ -33,13 +33,14 @@
 #define ins insert
 #define all(x) (x).begin(), (x).end()
 #define vll vector<long long>
+#define vit vector<int>
 #define vbl vector<bool>
 #define vstr vector<string>
 #define v(struct) vector<struct>
 #define vvll vector<vector<long long>>
 #define TASK "name"
 
-template<typename... value> void intall(value&... valueofvalue) { ((std::cin >> valueofvalue), ...); }
+template<typename... value> void inall(value&... valueofvalue) { ((std::cin >> valueofvalue), ...); }
 template<typename... value> void outall(char valueofchar, const value&... valueofvalue) { ((std::cout << valueofvalue << valueofchar), ...); std::cout << '\n'; }
 
 using namespace std;
@@ -66,11 +67,13 @@ inline long long giathualaydu (long long num, long long mod) { unsigned long lon
 
 void input() noexcept(false) {
 
-}
-void output() noexcept(false) {
-
     TIME;
 }
+void output() noexcept(true) {
+    
+    TIME;
+}
+
 signed main() {
     fastIO();
     if (fopen(TASK".INP", "r")) {
@@ -78,7 +81,8 @@ signed main() {
         freopen(TASK".OUT", "w", stdout);
     }
 
-    input(); output();
+
+    input(), output();
     return 0;
 }
 // __attribute__((constructor)) void auto00() { fastIO(); }

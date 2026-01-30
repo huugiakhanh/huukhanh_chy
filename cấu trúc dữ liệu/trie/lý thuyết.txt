@@ -1,0 +1,7 @@
+- Trie, hay một số tài liệu còn gọi là cây tiền tố, là một cấu trúc dữ liệu dạng cây hữu dụng được dùng để quản lí một tập hợp các xâu.
+Mặc dù dễ hiểu và dễ cài đặt, trie lại có rất nhiều ứng dụng. Do vậy, trie thường xuyên xuất hiện trong các cuộc thi lập trình ở 
+Việt Nam nói riêng và quốc tế nói chung.
+- Một trie cơ bản có thể thực hiện ba thao tác sau với độ phức tạp thời gian tuyến tính:
+	+) Thêm một xâu vào tập hợp
+	+) Xóa một xâu khỏi tập hợp
+	+) Kiểm tra một xâu có nằm trong tập hợp đó hay không

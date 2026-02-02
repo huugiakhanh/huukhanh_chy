@@ -1,4 +1,4 @@
-void xuli(str& s) noexcept(false) {
+void xuli(str& s) noexcept(true) {
     ll idx = -1;
     for (ll i = 0; i < s.size(); ++i) {
         if (s[i] != '0') {

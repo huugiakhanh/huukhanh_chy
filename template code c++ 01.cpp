@@ -41,7 +41,7 @@
 #define TASK "name"
 
 template<typename... value> void inall(value&... valueofvalue) { ((std::cin >> valueofvalue), ...); }
-template<typename... value> void outall(char valueofchar, const value&... valueofvalue) { ((std::cout << valueofvalue << valueofchar), ...); std::cout << '\n'; }
+template<typename... value> void outall(char valueofchar, const value&... valueofvalue) { ((std::cout << valueofvalue << valueofchar), ...); std::cout << valueofchar; }
 
 using namespace std;
 

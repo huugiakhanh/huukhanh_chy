@@ -1,6 +1,6 @@
 void xuli(str&   s) noexcept(false) {
     ll idx = -1;
-    for (ll i = 0; i < s.size(); i++) {
+    for (ll i = 0; i < s.size(); ++i) {
         if (s[i] != '0') {
             idx = i; break;
         }

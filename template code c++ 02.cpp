@@ -60,13 +60,12 @@ typedef long long ll;
 typedef bool bl;
 typedef __int128 int128;
 
-int128 s;
 void input() noexcept(true) {
-    read(s);
+    
     TIMEi;
 }
 void output() noexcept(true) {
-    write(s);
+    
     TIMEo;
 }
 

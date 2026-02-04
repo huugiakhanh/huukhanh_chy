@@ -48,7 +48,7 @@ void print128(__int128 x) noexcept(true) { if (x < 0) { putchar('-'); x = -x; } 
 bool cmp128(__int128 x, __int128 y) { return x > y; }
 // của int128
 
-inline void fastIO() noexcept(true) { std::ios::sync_with_stdio(false); std::cin.tie(nullptr); std::cout.tie(nullptr); if (fopen(TASK".INP", "r")) { freopen(TASK".INP", "r", stdin); freopen(TASK".OUT", "w", stdout); } }
+inline void fastIO() noexcept(true) { std::ios::sync_with_stdio(false); std::cin.tie(nullptr); std::cout.tie(nullptr); } }
 inline void inputfile() noexcept(true) { if (fopen(TASK".INP", "r")) { freopen(TASK".INP", "r", stdin); } }
 inline void outputfile() noexcept(true) { if (fopen(TASK".INP", "w")) { freopen(TASK".OUT", "w", stdout); } }
 

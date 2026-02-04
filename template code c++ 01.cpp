@@ -85,13 +85,3 @@ int main() {
     input(), output();
     return 0;
 }
-// __attribute__((constructor)) void auto00() { fastIO(); }
-
-// __attribute__((constructor))
-// void name() {
-//     // ham
-// }
-
-// #pragma pack(push, 1)
-// struct ten { bien; bien };
-// #pragma pack(pop)

@@ -26,7 +26,7 @@
 #define mset(a, valueptr) memset(a, valueptr, sizeof a)
 #define biton(x, i) ((x) >> (i) & 1)
 #define MASK(i) (1ll << (i))
-#define TIME cerr << "Time: " << 1.0 * clock() / CLOCKS_PER_SEC << "s\n";
+#define TIME cerr << "Time: " << 1.0 * clock() / CLOCKS_PER_SEC << "s\n"
 #define F first
 #define S second
 #define pub push_back
@@ -57,7 +57,7 @@ typedef double db;
 typedef bool bl;
 typedef long double ldb;
 
-inline void fastIO() { ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr); }
+inline void fastIO() noexcept(true) { ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr); }
 inline long long ucln(long long a, long long b) { while (a != 0) { long long uc = a; a = b % a ; b = uc; } return b; }
 inline long long bcnn(long long a, long long b) { long long res = (a * b) / ucln(a, b); return res; }
 inline long long luythua(long long a, long long b) { long long res = 1; while (b) { if (b & 1) { res *= a; } a = a * a; b >>= 1; } return res; }
@@ -74,7 +74,7 @@ void output() noexcept(true) {
     TIME;
 }
 
-signed main() {
+int main() {
     fastIO();
     if (fopen(TASK".INP", "r")) {
         freopen(TASK".INP", "r", stdin);

@@ -47,7 +47,10 @@ using namespace std;
 
 constexpr long long MOD1 = 1000000007LL;
 constexpr long long MOD2 = 1000000009LL;
+constexpr long long MOD3 = 2147483647LL;
 constexpr long long INF = 1000000000000000000LL;
+constexpr int base1= 310;
+constexpr int base2 = 256;
 
 typedef char cr;
 typedef string str;
@@ -70,7 +73,7 @@ void input() noexcept(true) {
     TIME;
 }
 void output() noexcept(true) {
-    
+
     TIME;
 }
 

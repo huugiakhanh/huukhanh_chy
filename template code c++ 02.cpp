@@ -33,7 +33,8 @@
 #define vstr vector<string>
 #define v(struct) vector<struct>
 #define vvll vector<vector<long long>>
-#define TASK "name"
+#define umap unordered_map
+#define uset unordered_set
 
 template<typename value> void read(value &x) noexcept(true) { x = 0; int sign = 1, c = getchar(); while (c != '-' && (c < '0' || c > '9')) { c = getchar(); } if (c == '-') { sign = -1, c = getchar(); } while (c >= '0' && c <= '9') { x = x * 10 + (c - '0'); c = getchar(); } x *= sign; }
 template<typename value> void write(value x) noexcept(true) {if (x < 0) { putchar('-'); x = -x; } if (x > 9) { write(x / 10); } putchar(char('0' + x % 10)); }
@@ -48,9 +49,9 @@ void print128(__int128 x) noexcept(true) { if (x < 0) { putchar('-'); x = -x; } 
 bool cmp128(__int128 x, __int128 y) { return x > y; }
 // của int128
 
-inline void fastIO() noexcept(true) { std::ios::sync_with_stdio(false); std::cin.tie(nullptr); std::cout.tie(nullptr); } }
-inline void inputfile() noexcept(true) { if (fopen(TASK".INP", "r")) { freopen(TASK".INP", "r", stdin); } }
-inline void outputfile() noexcept(true) { if (fopen(TASK".INP", "w")) { freopen(TASK".OUT", "w", stdout); } }
+inline void fastIO() noexcept(true) { std::ios::sync_with_stdio(false); std::cin.tie(nullptr); std::cout.tie(nullptr); }
+inline void inputfile(const std::string& TASK) noexcept(true) { std::string file = TASK + ".INP"; if (FILE* f = fopen(file.c_str(), "r")) { freopen(file.c_str(), "r", stdin); fclose(f); } }
+inline void outputfile(const std::string& TASK) noexcept(true) { std::string file = TASK + ".OUT"; if (fopen(file.c_str(), "w")) { freopen(file.c_str(), "w", stdout); } }
 
 using namespace std;
 
@@ -61,17 +62,17 @@ typedef bool bl;
 typedef __int128 int128;
 
 void input() noexcept(true) {
-    
+
     TIMEi;
 }
 void output() noexcept(true) {
-    
+
     TIMEo;
 }
 
 int main() {
     fastIO();
-    inputfile(), outputfile();
-    input(), output();
+    inputfile("name"), input();
+    outputfile("name"), output();
     return 0;
 }

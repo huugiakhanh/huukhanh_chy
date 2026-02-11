@@ -26,7 +26,7 @@
 #define S second
 #define pub push_back
 #define ins insert
-#define all(x) (x).begin(), (x).end()
+#define All(x) (x).begin(), (x).end()
 #define vll vector<long long>
 #define vit vector<int>
 #define vbl vector<bool>

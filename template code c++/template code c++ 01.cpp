@@ -51,6 +51,7 @@ constexpr long long MOD3 = 2147483647LL;
 constexpr long long INF = 1000000000000000000LL;
 constexpr int base1= 310;
 constexpr int base2 = 256;
+constexpr long long MAXn = 1000007;
 
 typedef char cr;
 typedef string str;

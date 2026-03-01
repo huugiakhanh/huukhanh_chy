@@ -124,7 +124,7 @@ bl millerrabin(ll n) {
         // xét trường hợp base ^ (2 ^ s)
         bl ok = true;
         for (int k = 1; k < s; ++k) { // duyệt bậc của s
-            x = powmodv1(x, x, n); // base ^ d * base ^ d
+            x = mulmodv1(x, x, n); // base ^ d * base ^ d
             // nếu trong s lần có 1 lần ≡ 1 hoặc n - 1 loại
             if (x == 1 || x == n - 1) {
                 ok = false; break;

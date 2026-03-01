@@ -65,14 +65,32 @@ ll ten[10] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29}; // 10 số nguyên tố đầ
 int base1[3] = {2, 7, 61}; // hệ cơ số cho kiểm tra <= 1e9
 ll base2[7] = {2, 3, 5, 7, 11, 13, 17}; // hệ cơ số cho kiểm tra <= 1e18
 
-ll mulmod(ll a, ll b, ll mod) { // hàm nhân chia dư để tránh tràn
+ll mulmodv1(ll a, ll b, ll mod) { // hàm nhân chia dư để tránh tràn
     return (int128) a * b % mod; // int128 để trường hợp xấu nhất ko bị tràn
 }
-ll powmod(ll a, ll b, ll mod) { // lũy thừa nhị phân chia dư
+ll mulmodv2(ll a, ll b, ll mod) { // hàm nhân chia dư v2 ko dùng int128, dùng cho máy chấm themis, và các phiên bản c++ thấp
+    long double x = (long double) a * b; // tính tích để ko bị tràn
+    ll t = (ll)(x / mod); // tính thương của a * b cho mod
+    ll m = x - t * mod; // tính du bằng các lấy tích từ thương nhân số chia
+    // vì long double có sai số nên t cần
+    if (m < 0) m += mod;
+    if (m >= mod) m -= mod;
+    return m;
+}
+ll powmodv1(ll a, ll b, ll mod) { // lũy thừa nhị phân chia dư với n <= 1e18 như có 1 sai số nhất định
     ll res = 1; a %= mod; // tiền xử lí
     while (b) {
-        if (b & 1) res = mulmod(res, a, mod); // dùng mulmod thanh * để tránh tràn
-        a = mulmod(a, a, mod); // như trên
+        if (b & 1) res = mulmodv1(res, a, mod); // dùng mulmod thanh * để tránh tràn
+        a = mulmodv1(a, a, mod); // như trên
+        b >>= 1;
+    }
+    return res;
+}
+ll powmodv2(ll a, ll b, ll mod) { // lũy thừa nhị phân chia dư bth với n <= 1e9 dùng an toàn nhất
+    ll res = 1; a %= mod; // tiền xử lí
+    while (b) {
+        if (b & 1) res = (res * a) % mod;
+        a = (a * a) % mod; // như trên
         b >>= 1;
     }
     return res;
@@ -100,13 +118,13 @@ bl millerrabin(ll n) {
     // trường hợp chạy hết các base và toàn bộ đều ≡ với 1 hoặc n - 1 thì n là số nguyên tố
     for (auto& a : base2) {
         if (a > n) continue;
-        ll x = powmod(a, d, n); // kiểm tra từ cơ số (a ^ d) % n nếu == 1 hoặc == -1 (n - 1) thì
+        ll x = powmodv1(a, d, n); // kiểm tra từ cơ số (a ^ d) % n nếu == 1 hoặc == -1 (n - 1) thì
         if (x == 1 || x == n - 1) continue; // kiểm tra  base ^ d
         // trường hợp dồng dư khác 1 và n - 1
         // xét trường hợp base ^ (2 ^ s)
         bl ok = true;
         for (int k = 1; k < s; ++k) { // duyệt bậc của s
-            x = powmod(x, x, n); // base ^ d * base ^ d
+            x = powmodv1(x, x, n); // base ^ d * base ^ d
             // nếu trong s lần có 1 lần ≡ 1 hoặc n - 1 loại
             if (x == 1 || x == n - 1) {
                 ok = false; break;

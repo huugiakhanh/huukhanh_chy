@@ -64,6 +64,7 @@ typedef __int128 int128;
 ll ten[10] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29}; // 10 số nguyên tố đầu tiêm để check nhanh
 int base1[3] = {2, 7, 61}; // hệ cơ số cho kiểm tra <= 1e9
 ll base2[7] = {2, 3, 5, 7, 11, 13, 17}; // hệ cơ số cho kiểm tra <= 1e18
+ll base3[7] = {2, 325, 9375, 28178, 450775, 9780504, 1795265022}; // hệ cơ số cho kiểm tra <= 1e18 như nhanh và chắc chắn nhất
 
 ll mulmodv1(ll a, ll b, ll mod) { // hàm nhân chia dư để tránh tràn
     return (int128) a * b % mod; // int128 để trường hợp xấu nhất ko bị tràn
@@ -77,10 +78,20 @@ ll mulmodv2(ll a, ll b, ll mod) { // hàm nhân chia dư v2 ko dùng int128, dù
     if (m >= mod) m -= mod;
     return m;
 }
+ll mulmodv3(ll a, ll b, ll mod) { // hàm nhân chi dư v3 dùng nhân ấn độ
+    if (mod == 0) return a * b;
+    ll r = 0; // lưu res
+    while (b) {
+        if (b & 1) r = (r + a) % mod; // nếu b lẻ thì res += a và chia dư
+        a = (a + a) % mod; // 2 * a chi dư để tính tiếp
+        b >>= 1; // b / 2
+    }
+    return r;
+}
 ll powmodv1(ll a, ll b, ll mod) { // lũy thừa nhị phân chia dư với n <= 1e18 như có 1 sai số nhất định
     ll res = 1; a %= mod; // tiền xử lí
     while (b) {
-        if (b & 1) res = mulmodv1(res, a, mod); // dùng mulmod thanh * để tránh tràn
+        if (b & 1) res = mulmodv1(res, a, mod); // dùng mulmodv1 thanh * để tránh tràn
         a = mulmodv1(a, a, mod); // như trên
         b >>= 1;
     }
@@ -91,6 +102,15 @@ ll powmodv2(ll a, ll b, ll mod) { // lũy thừa nhị phân chia dư bth với 
     while (b) {
         if (b & 1) res = (res * a) % mod;
         a = (a * a) % mod; // như trên
+        b >>= 1;
+    }
+    return res;
+}
+ll powmodv3(ll a, ll b, ll mod) { // lũy thừa nhị phân chia dư với nhân ấn độ
+    ll res = 1; a %= mod; // tiền xử lí
+    while (b) {
+        if (b & 1) res = mulmodv3(res, a, mod); // dùng mulmodv3 kiểu nhân ấn độ
+        a = mulmodv3(a, a, mod); // như trên
         b >>= 1;
     }
     return res;

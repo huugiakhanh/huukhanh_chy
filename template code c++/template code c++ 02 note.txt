@@ -1,0 +1,3 @@
+template<class T> using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>; // phần tử nhỏ thứ k, xác định vị trí phần từ, trung vị cửa sổ trượt, đếm cặp nghịch thế, thống kê thứ tự động, chập hơn bth set do có thêm chức năng
+// name.find_by_order(k): phần tử nhỏ thứ k
+// name.order_of_key(x): phàn tử nhỏ hơn x

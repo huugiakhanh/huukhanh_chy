@@ -1,5 +1,7 @@
 // #pragma once // huu khanh chy
 #include <bits/stdc++.h>
+#include <ext/pb_ds/tree_policy.hpp>
+#include <ext/pb_ds/assoc_container.hpp>
 
 #pragma GCC optimize("Ofast", "Os")
 // #pragma GCC optimize("O2")
@@ -41,6 +43,7 @@
 #define vvll vector<vector<long long>>
 #define umap unordered_map
 #define uset unordered_set
+#define hmap p_hash_table
 
 template<typename value> void read(value &x) noexcept(true) { x = 0; int sign = 1, c = getchar(); while (c != '-' && (c < '0' || c > '9')) { c = getchar(); } if (c == '-') { sign = -1, c = getchar(); } while (c >= '0' && c <= '9') { x = x * 10 + (c - '0'); c = getchar(); } x *= sign; }
 template<typename value> void write(value x) noexcept(true) {if (x < 0) { putchar('-'); x = -x; } if (x > 9) { write(x / 10); } putchar(char('0' + x % 10)); }
@@ -67,6 +70,10 @@ inline long long luythualaydu (long long a, long long b, long long mod) { long l
 inline long long giathualaydu (long long num, long long mod) { unsigned long long res = 1; forr(i, 2, num, 1) res = (res * i) % mod; return res; }
 
 using namespace std;
+using namespace __gnu_pbds;
+
+template<class T> using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+template<class T> using ordered_multiset = tree<pair<T,int>, null_type, less<pair<T,int>>, rb_tree_tag, tree_order_statistics_node_update>;
 
 constexpr long long MOD1 = 1000000007LL;
 constexpr long long MOD2 = 1000000009LL;

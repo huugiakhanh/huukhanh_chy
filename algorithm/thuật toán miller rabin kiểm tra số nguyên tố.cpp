@@ -111,10 +111,10 @@ bl millerrabin(ll n) {
     // vì số nguyên tố luôn & 1 đc (t trừ 2) nên ta áp dụng định lí fermat nhỏ a ^ (n - 1) ≡ 1 (mod n)
     // khi này t  kiểm tra như sau cơ số base ^ (n - 1) với n là số cần kiểm tra
     // base ^ (n - 1) <=> base ^ (d * 2 ^ s) <=> base ^ d * base ^ (2 ^ s)
-    // ta kiểm ra base ^ d % n vì là số chính phương nên ta kiểm tra trường hơp ≡ 1 hoặc n - 1 đúng thì loại sai t duyệt cơ số tiếp theo
+    // ta kiểm ra base ^ d % n vì là số chính phương nên ta kiểm tra trường hơp ≡ 1 hoặc n - 1 đúng thì loại sai thì duyệt cơ số tiếp theo
     // nếu khác 1 và n - 1 ta xỉ lí đến  base ^ (2 ^ s) tức xử lí 2 ^ s
     // ở đây t kiểm tra từ bâc s từ 1 đến s - 1
-    // nếu base ^ (2 ^ s) ≡ với 1 hoặc n - 1 tiếp túc thì n ko là số nguyên tố
+    // nếu base ^ (2 ^ s) ≡ với 1 hoặc n - 1 tiếp túc thì n là tạm là số nguyên tố mà kiểm tra thêm cơ số khác
     // trường hợp chạy hết các base và toàn bộ đều ≡ với 1 hoặc n - 1 thì n là số nguyên tố
     for (auto& a : base2) {
         if (a > n) continue;
@@ -127,10 +127,10 @@ bl millerrabin(ll n) {
             x = mulmodv1(x, x, n); // base ^ d * base ^ d
             // nếu trong s lần có 1 lần ≡ 1 hoặc n - 1 loại
             if (x == 1 || x == n - 1) {
-                ok = false; break;
+                ok = false; break; // tức n tạm là số nguyên tố cần kiêm tra thêm
             }
         }
-        if (ok) return false;
+        if (ok) return false; // nếu ok chx bị thay đổi thành false tức x ko ≡ với 1 / n - 1 thì ko là số nguyên tố
    }
     return true;
 }

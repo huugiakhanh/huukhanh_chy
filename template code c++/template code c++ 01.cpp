@@ -32,11 +32,14 @@
 #define pub push_back
 #define ins insert
 #define All(x) (x).begin(), (x).end()
+#define pii pair<int, int>
+#define pli pair<long long, int>
+#define pll pair<long long, long long>
 #define vll vector<long long>
 #define vit vector<int>
 #define vbl vector<bool>
 #define vstr vector<string>
-#define v(struct) vector<struct>
+#define v(datatype) vector<datatype>
 #define vvll vector<vector<long long>>
 #define TASK "name"
 

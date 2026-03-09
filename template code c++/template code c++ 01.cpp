@@ -68,9 +68,9 @@ inline void fastIO() noexcept(true) { ios::sync_with_stdio(false); cin.tie(nullp
 inline long long ucln(long long a, long long b) { while (a != 0) { long long uc = a; a = b % a ; b = uc; } return b; }
 inline long long bcnn(long long a, long long b) { long long res = (a * b) / ucln(a, b); return res; }
 inline long long luythua(long long a, long long b) { long long res = 1; while (b) { if (b & 1) { res *= a; } a = a * a; b >>= 1; } return res; }
-inline long long giathua(long long num) { unsigned long long res = 1; for (long long i = 2; i <= num; ++i) res *= i; return res; }
+inline long long giathua(long long num) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res *= i; return res; }
 inline long long luythualaydu (long long a, long long b, long long mod) { long long res = 1; a = a % mod; while (b > 0) { if (b & 1) { res = (res * a) % mod; } a = (a * a) % mod; b >>= 1; } return res; }
-inline long long giathualaydu (long long num, long long mod) { unsigned long long res = 1; for (long long i = 2; i <= num; ++i) res = (res * i) % mod; return res; }
+inline long long giathualaydu (long long num, long long mod) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res = (res * i) % mod; return res; }
 
 void input() noexcept(true) {
 
@@ -87,8 +87,7 @@ int main() {
         freopen(TASK".INP", "r", stdin);
         freopen(TASK".OUT", "w", stdout);
     }
-
-
+    
     input(), output();
     return 0;
 }

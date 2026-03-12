@@ -56,14 +56,6 @@ inline long long giathua(long long num) { unsigned long long res = 1; for (unsig
 inline long long luythualaydu (long long a, long long b, long long mod) { long long res = 1; a = a % mod; while (b > 0) { if (b & 1) { res = (res * a) % mod; } a = (a * a) % mod; b >>= 1; } return res; }
 inline long long giathualaydu (long long num, long long mod) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res = (res * i) % mod; return res; }
 
-constexpr long long MOD1 = 1000000007LL;
-constexpr long long MOD2 = 1000000009LL;
-constexpr long long MOD3 = 2147483647LL;
-constexpr long long INF = 1000000000000000000LL;
-constexpr int base1= 310;
-constexpr int base2 = 256;
-constexpr long long MAXn = 1000007;
-
 typedef char cr;
 typedef string str;
 typedef long long ll;
@@ -71,6 +63,14 @@ typedef unsigned long long ull;
 typedef double db;
 typedef bool bl;
 typedef long double ldb;
+
+constexpr long long MOD1 = 1000000007LL;
+constexpr long long MOD2 = 1000000009LL;
+constexpr long long MOD3 = 2147483647LL;
+constexpr long long INF = 1000000000000000000LL;
+constexpr int base1= 310;
+constexpr int base2 = 256;
+constexpr long long MAXn = 1000007;
 
 void input() noexcept(true) {
 

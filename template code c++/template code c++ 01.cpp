@@ -48,6 +48,14 @@ template<typename... value> void outall(char valueofchar, const value&... valueo
 
 using namespace std;
 
+inline void fastIO() noexcept(true) { ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr); }
+inline long long ucln(long long a, long long b) { while (a != 0) { long long uc = a; a = b % a ; b = uc; } return b; }
+inline long long bcnn(long long a, long long b) { long long res = (a * b) / ucln(a, b); return res; }
+inline long long luythua(long long a, long long b) { long long res = 1; while (b) { if (b & 1) { res *= a; } a = a * a; b >>= 1; } return res; }
+inline long long giathua(long long num) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res *= i; return res; }
+inline long long luythualaydu (long long a, long long b, long long mod) { long long res = 1; a = a % mod; while (b > 0) { if (b & 1) { res = (res * a) % mod; } a = (a * a) % mod; b >>= 1; } return res; }
+inline long long giathualaydu (long long num, long long mod) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res = (res * i) % mod; return res; }
+
 constexpr long long MOD1 = 1000000007LL;
 constexpr long long MOD2 = 1000000009LL;
 constexpr long long MOD3 = 2147483647LL;
@@ -63,14 +71,6 @@ typedef unsigned long long ull;
 typedef double db;
 typedef bool bl;
 typedef long double ldb;
-
-inline void fastIO() noexcept(true) { ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr); }
-inline long long ucln(long long a, long long b) { while (a != 0) { long long uc = a; a = b % a ; b = uc; } return b; }
-inline long long bcnn(long long a, long long b) { long long res = (a * b) / ucln(a, b); return res; }
-inline long long luythua(long long a, long long b) { long long res = 1; while (b) { if (b & 1) { res *= a; } a = a * a; b >>= 1; } return res; }
-inline long long giathua(long long num) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res *= i; return res; }
-inline long long luythualaydu (long long a, long long b, long long mod) { long long res = 1; a = a % mod; while (b > 0) { if (b & 1) { res = (res * a) % mod; } a = (a * a) % mod; b >>= 1; } return res; }
-inline long long giathualaydu (long long num, long long mod) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res = (res * i) % mod; return res; }
 
 void input() noexcept(true) {
 

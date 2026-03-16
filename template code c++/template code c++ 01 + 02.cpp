@@ -54,6 +54,8 @@ template<typename... value> void inall(value&... valueofvalue) noexcept(true) { 
 template<typename... value> void outall(char valueofchar, const value&... valueofvalue) noexcept(true) { ((std::cout << valueofvalue << valueofchar), ...); std::cout << valueofchar; }
 template<typename... value> void inallf(value&... valueofvalue) noexcept(true) { ((read(valueofvalue)), ...);}
 template<typename... value> void outallf(char valueofchar, const value&... valueofvalue) noexcept(true) { ((write(valueofvalue), putchar(valueofchar)), ...); }
+template<class X, class Y> bool maximize(X& x, const Y& y) { if (x < y) { x = y; return true; } return false; }
+template<class X, class Y> bool minimize(X& x, const Y& y) { if (x > y) { x = y; return true; } return false; }
 
 // của int128
 __int128 read128() { __int128 x = 0, f = 1; char ch = getchar(); while (ch < '0' || ch > '9') { if (ch == '-') f = -1; ch = getchar(); } while (ch >= '0' && ch <= '9') { x = x * 10 + ch - '0'; ch = getchar(); } return x * f; }

@@ -45,6 +45,8 @@
 
 template<typename... value> void inall(value&... valueofvalue) { ((std::cin >> valueofvalue), ...); }
 template<typename... value> void outall(char valueofchar, const value&... valueofvalue) { ((std::cout << valueofvalue << valueofchar), ...); std::cout << valueofchar; }
+template<class X, class Y> bool maximize(X& x, const Y& y) { if (x < y) { x = y; return true; } return false; }
+template<class X, class Y> bool minimize(X& x, const Y& y) { if (x > y) { x = y; return true; } return false; }
 
 using namespace std;
 

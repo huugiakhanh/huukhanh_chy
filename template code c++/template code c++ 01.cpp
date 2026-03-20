@@ -10,10 +10,8 @@
 
 // #pragma GCC optimize("Os")
 // #pragma GCC optimize("O2")
-// #pragma GCC optimize("inline",)
-// #pragma GCC optimize("fast-math",)
-// #pragma GCC optimize("inline",)
-// #pragma GCC optimize("fast-math",)
+// #pragma GCC optimize("inline")
+// #pragma GCC optimize("fast-math")
 // #pragma GCC target("fma")
 // #pragma GCC target("sse,sse2")
 // #pragma GCC target("sse3,ssse3")
@@ -76,7 +74,7 @@ constexpr long long MOD3 = 2147483647LL;
 constexpr long long INF = 1000000000000000000LL;
 constexpr int base1= 310;
 constexpr int base2 = 256;
-constexpr long long MAXn = 1000007;
+constexpr long long MAXn = 100007;
 
 void input() noexcept(true) {
 
@@ -93,7 +91,7 @@ int main() {
         freopen(TASK".INP", "r", stdin);
         freopen(TASK".OUT", "w", stdout);
     }
-    
+
     input(), output();
     return 0;
 }

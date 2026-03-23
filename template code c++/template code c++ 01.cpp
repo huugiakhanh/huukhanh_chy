@@ -63,6 +63,7 @@ inline long long giathualaydu (long long num, long long mod) { unsigned long lon
 typedef char cr;
 typedef string str;
 typedef long long ll;
+typedef short anhnguyet;
 typedef unsigned long long ull;
 typedef double db;
 typedef bool bl;

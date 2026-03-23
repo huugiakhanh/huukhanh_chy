@@ -69,6 +69,7 @@ template<class T> using ordered_multiset = tree<pair<T,int>, null_type, less<pai
 typedef char cr;
 typedef string str;
 typedef long long ll;
+typdef short anhnguyet;
 typedef bool bl;
 typedef __int128 int128;
 

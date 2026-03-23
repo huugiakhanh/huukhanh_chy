@@ -94,6 +94,7 @@ constexpr long long MAXn = 1000007;
 typedef char cr;
 typedef string str;
 typedef long long ll;
+typedef short sh;
 typedef unsigned long long ull;
 typedef double db;
 typedef bool bl;

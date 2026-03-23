@@ -1,21 +1,26 @@
-// #pragma once // huu khanh chy
-#include <bits/stdc++.h>
+// huu khanh chy
 
-// #pragma GCC optimize("Ofast")
-// #pragma GCC optimize("O3")
-// #pragma GCC optimize("unroll-loops")
-// #pragma GCC target("avx,avx2")
-// #pragma GCC target("bmi,bmi2")
-// #pragma GCC target("popcnt,lzcnt")
-
+// #pragma once
 // #pragma GCC optimize("Os")
 // #pragma GCC optimize("O2")
-// #pragma GCC optimize("inline")
-// #pragma GCC optimize("fast-math")
 // #pragma GCC target("fma")
 // #pragma GCC target("sse,sse2")
 // #pragma GCC target("sse3,ssse3")
 // #pragma GCC target("sse4.1,sse4.2")
+
+// #define anhnguyet_huukhanh
+#ifdef anhnguyet_huukhanh
+    #pragma GCC optimize("Ofast")
+    #pragma GCC optimize("O3")
+    #pragma GCC optimize("unroll-loops")
+    #pragma GCC target("avx,avx2")
+    #pragma GCC target("bmi,bmi2")
+    #pragma GCC target("popcnt,lzcnt")
+    #pragma GCC optimize("inline")
+    #pragma GCC optimize("fast-math")
+#endif
+
+#include <bits/stdc++.h>
 
 #define FOR(i, n) for(long long (i) = 0; (i) < (n); ++(i))
 #define forr(i, l, r, k) for (long long i = (l); i <= (r); i += (k))
@@ -60,10 +65,10 @@ inline long long giathua(long long num) { unsigned long long res = 1; for (unsig
 inline long long luythualaydu (long long a, long long b, long long mod) { long long res = 1; a = a % mod; while (b > 0) { if (b & 1) { res = (res * a) % mod; } a = (a * a) % mod; b >>= 1; } return res; }
 inline long long giathualaydu (long long num, long long mod) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res = (res * i) % mod; return res; }
 
+typedef short sh;
 typedef char cr;
 typedef string str;
 typedef long long ll;
-typedef short anhnguyet;
 typedef unsigned long long ull;
 typedef double db;
 typedef bool bl;

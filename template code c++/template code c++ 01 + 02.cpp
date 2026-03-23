@@ -1,25 +1,31 @@
-// #pragma once // huu khanh chy
-#include <bits/stdc++.h>
-#include <ext/pb_ds/tree_policy.hpp>
-#include <ext/pb_ds/assoc_container.hpp>
+// #pragma once
+// huu khanh chy
+#define anhnguyet_huukhanh
 
-#pragma GCC optimize("Ofast")
-#pragma GCC optimize("O3")
-#pragma GCC optimize("unroll-loops")
-#pragma GCC target("avx,avx2")
-#pragma GCC target("bmi,bmi2")
-#pragma GCC target("popcnt,lzcnt")
+#ifdef anhnguyet_huukhanh
+    #pragma GCC optimize("Ofast")
+    #pragma GCC optimize("O3")
+    #pragma GCC optimize("unroll-loops")
+    #pragma GCC target("avx,avx2")
+    #pragma GCC target("bmi,bmi2")
+    #pragma GCC target("popcnt,lzcnt")
+    #pragma GCC optimize("inline")
+    #pragma GCC optimize("fast-math")
+#endif
 
 // #pragma GCC optimize("Os")
 // #pragma GCC optimize("O2")
-// #pragma GCC optimize("inline",)
-// #pragma GCC optimize("fast-math",)
-// #pragma GCC optimize("inline",)
-// #pragma GCC optimize("fast-math",)
+// #pragma GCC optimize("inline")
+// #pragma GCC optimize("fast-math")
 // #pragma GCC target("fma")
 // #pragma GCC target("sse,sse2")
 // #pragma GCC target("sse3,ssse3")
 // #pragma GCC target("sse4.1,sse4.2")
+
+#include <bits/stdc++.h>
+#include <ext/pb_ds/tree_policy.hpp>
+#include <ext/pb_ds/assoc_container.hpp>
+
 #define FOR(i, n) for(long long (i) = 0; (i) < (n); ++(i))
 #define forr(i, l, r, k) for (long long i = (l); i <= (r); i += (k))
 #define rfor(i, r, l, k) for (long long i = (r); i >= (l); i -= (k))
@@ -109,7 +115,6 @@ void output() noexcept(true) {
 
     TIMEo;
 }
-
 
 int main() {
     fastIO();

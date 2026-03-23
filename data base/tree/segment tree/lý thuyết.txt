@@ -5,9 +5,9 @@
 - Độ phức tạp không gian là O(4n)
 
 - Độ phức tạp khi ứng dụng với các thuân toán đồ thị
-Bài toán	 			Kỹ thuật Độ 						phức tạp
-Sum/min/max trên đường đi u→v		HLD + Seg tree						O(log²n)
-Update/query cả cây con			Euler tour + Seg tree					O(log n)
-LCA nhiều truy vấn			Euler tour + RMQ					O(1) hoặc O(log n)
-Thêm/xóa cạnh offline, hỏi liên thông 	Seg tree theo thời gian + DSU rollback 			O(n log²n)
-Cạnh tồn tại trong đoạn thời gian	Seg tree of graphs					O(n log n)
+Bài toán	 			                              Kỹ thuật  						                            Độ phức tạp
+Sum/min/max trên đường đi u→v		              HLD + Seg tree						                        O(log²n)
+Update/query cả cây con			                   Euler tour + Seg tree			                      O(log n)
+LCA nhiều truy vấn		                       	Euler tour + RMQ	                                O(1) hoặc O(log n)
+Thêm/xóa cạnh offline, hỏi liên thông 	      Seg tree theo thời gian + DSU rollback 		      	O(n log²n)
+Cạnh tồn tại trong đoạn thời gian	            Seg tree of graphs                       					O(n log n)

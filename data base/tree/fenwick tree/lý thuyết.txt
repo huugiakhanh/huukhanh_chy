@@ -1,0 +1,12 @@
+- fenwick tree hay còn gọi là binary indexed tree - BIT
+- là cấu trúc dữ liệu một mảng số nguyên, hỗ trọ 2 thao tác O(log n)
+	+) cập nhật 1 phần tử
+	+) truy vấn tổng tiền tố từ 1 đến index
+- ý tưởng: mỗi index trong fenwick tree không lưu giá trị tại i, mà lưu
+tổng của một đoạn kết thúc tại i, độ dài được xác định là bit thấp nhất 
+LSB của i
+
+- khi cập nhật vào mảng BIT, ta có 2 kiểu:
+nếu i & 1 thì bit[i] = a[i]
+còn nếu !(i & 1) và i là là lũy thừa cơ số 2 thì BIT[i] = tổng từ a[1] đến a[i]
+còn nếu chỉ !(i & 1) thì ta ước lượng được BIT[i] = tổng từ a[LSB(i)] đến a[i]

@@ -1,11 +1,16 @@
 // #pragma once // huu khanh chy
 
-#pragma GCC optimize("Ofast")
-#pragma GCC optimize("O3")
-#pragma GCC optimize("unroll-loops")
-#pragma GCC target("avx,avx2")
-#pragma GCC target("bmi,bmi2")
-#pragma GCC target("popcnt,lzcnt")
+#define anhnguyet_huukhanh
+#ifdef anhnguyet_huukhanh
+    #pragma GCC optimize("Ofast")
+    #pragma GCC optimize("O3")
+    #pragma GCC optimize("unroll-loops")
+    #pragma GCC target("avx,avx2")
+    #pragma GCC target("bmi,bmi2")
+    #pragma GCC target("popcnt,lzcnt")
+    #pragma GCC optimize("inline")
+    #pragma GCC optimize("fast-math")
+#endif
 
 // #pragma GCC optimize("Os")
 // #pragma GCC optimize("O2")
@@ -68,7 +73,7 @@ template<class T> using ordered_multiset = tree<pair<T,int>, null_type, less<pai
 typedef char cr;
 typedef string str;
 typedef long long ll;
-typdef short anhnguyet;
+typedef short sh;
 typedef bool bl;
 typedef __int128 int128;
 

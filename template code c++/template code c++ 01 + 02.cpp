@@ -57,6 +57,7 @@
 #define uset unordered_set
 #define hmap p_hash_table
 
+
 template<typename value> void read(value &x) noexcept(true) { x = 0; int sign = 1, c = getchar(); while (c != '-' && (c < '0' || c > '9')) { c = getchar(); } if (c == '-') { sign = -1, c = getchar(); } while (c >= '0' && c <= '9') { x = x * 10 + (c - '0'); c = getchar(); } x *= sign; }
 template<typename value> void write(value x) noexcept(true) {if (x < 0) { putchar('-'); x = -x; } if (x > 9) { write(x / 10); } putchar(char('0' + x % 10)); }
 template<typename... value> void inall(value&... valueofvalue) noexcept(true) { ((std::cin >> valueofvalue), ...); }
@@ -65,6 +66,8 @@ template<typename... value> void inallf(value&... valueofvalue) noexcept(true) {
 template<typename... value> void outallf(char valueofchar, const value&... valueofvalue) noexcept(true) { ((write(valueofvalue), putchar(valueofchar)), ...); }
 template<class X, class Y> bool maximize(X& x, const Y& y) { if (x < y) { x = y; return true; } return false; }
 template<class X, class Y> bool minimize(X& x, const Y& y) { if (x > y) { x = y; return true; } return false; }
+template<class T> using ordered_set = __gnu_pbds::tree<T, __gnu_pbds::null_type, std::less<T>, __gnu_pbds::rb_tree_tag, __gnu_pbds::tree_order_statistics_node_update>;
+template<class T> using ordered_multiset = __gnu_pbds::tree<std::pair<T,int>, __gnu_pbds::null_type, std::less<std::pair<T,int>>, __gnu_pbds::rb_tree_tag, __gnu_pbds::tree_order_statistics_node_update>;
 
 // của int128
 __int128 read128() { __int128 x = 0, f = 1; char ch = getchar(); while (ch < '0' || ch > '9') { if (ch == '-') f = -1; ch = getchar(); } while (ch >= '0' && ch <= '9') { x = x * 10 + ch - '0'; ch = getchar(); } return x * f; }
@@ -82,20 +85,11 @@ inline long long luythua(long long a, long long b) { long long res = 1; while (b
 inline long long giathua(long long num) { unsigned long long res = 1; forr(i, 2, num, 1) res *= i; return res; }
 inline long long luythualaydu (long long a, long long b, long long mod) { long long res = 1; a = a % mod; while (b > 0) { if (b & 1) { res = (res * a) % mod; } a = (a * a) % mod; b >>= 1; } return res; }
 inline long long giathualaydu (long long num, long long mod) { unsigned long long res = 1; forr(i, 2, num, 1) res = (res * i) % mod; return res; }
+inline long long ceil_safe(long long num) { if (num <= 0) { return 0; } long long num_sqrt = (long long)sqrt((double)(num - 1)); while (num_sqrt * num_sqrt > num - 1) { num_sqrt--; } while ((num_sqrt + 1) * (num_sqrt + 1) <= num - 1) { num_sqrt++; } num_sqrt++; return num_sqrt; }
+inline long long floor_safe(long long num) { if (num <= 0) { return 0; } long long num_sqrt = (long long)sqrt((double)num); while (num_sqrt * num_sqrt > num) { num_sqrt--; } while ((num_sqrt + 1) * (num_sqrt + 1) <= num) { num_sqrt++; } return num_sqrt; }
 
 using namespace std;
 using namespace __gnu_pbds;
-
-template<class T> using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
-template<class T> using ordered_multiset = tree<pair<T,int>, null_type, less<pair<T,int>>, rb_tree_tag, tree_order_statistics_node_update>;
-
-constexpr long long MOD1 = 1000000007LL;
-constexpr long long MOD2 = 1000000009LL;
-constexpr long long MOD3 = 2147483647LL;
-constexpr long long INF = 1000000000000000000LL;
-constexpr int base1= 310;
-constexpr int base2 = 256;
-constexpr long long MAXn = 1000007;
 
 typedef char cr;
 typedef string str;
@@ -106,6 +100,14 @@ typedef double db;
 typedef bool bl;
 typedef long double ldb;
 typedef __int128 int128;
+
+constexpr long long MOD1 = 1000000007LL;
+constexpr long long MOD2 = 1000000009LL;
+constexpr long long MOD3 = 2147483647LL;
+constexpr long long INF = 1000000000000000000LL;
+constexpr int base1= 310;
+constexpr int base2 = 256;
+constexpr long long MAXn = 1000007;
 
 void input() noexcept(true) {
 

@@ -23,8 +23,8 @@
 #include <bits/stdc++.h>
 
 #define FOR(i, n) for(long long (i) = 0; (i) < (n); ++(i))
-#define forr(i, l, r, k) for (long long i = (l); i <= (r); i += (k))
-#define rfor(i, r, l, k) for (long long i = (r); i >= (l); i -= (k))
+#define forr(i, l, r) for (long long i = (l); i <= (r); ++i)
+#define rfor(i, r, l) for (long long i = (r); i >= (l); --i)
 #define SORT(a) sort((a).begin(), (a).end())
 #define RSORT(a) sort((a).begin(), (a).end(), greater<long long>())
 #define sortt(a, type) sort((a).begin(), (a).end(), type)
@@ -83,11 +83,11 @@ constexpr int base2 = 256;
 constexpr long long MAXn = 100007;
 
 void input() noexcept(true) {
-
+    
     TIME;
 }
 void output() noexcept(true) {
-
+    
     TIME;
 }
 

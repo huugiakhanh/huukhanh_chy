@@ -27,8 +27,8 @@
 #include <ext/pb_ds/assoc_container.hpp>
 
 #define FOR(i, n) for(long long (i) = 0; (i) < (n); ++(i))
-#define forr(i, l, r, k) for (long long i = (l); i <= (r); i += (k))
-#define rfor(i, r, l, k) for (long long i = (r); i >= (l); i -= (k))
+#define forr(i, l, r) for (long long i = (l); i <= (r); ++i)
+#define rfor(i, r, l) for (long long i = (r); i >= (l); --i)
 #define SORT(a) sort((a).begin(), (a).end())
 #define RSORT(a) sort((a).begin(), (a).end(), greater<long long>())
 #define sortt(a, type) sort((a).begin(), (a).end(), type)
@@ -81,9 +81,9 @@ inline void outputfile(const std::string& TASK) noexcept(true) { std::string fil
 inline long long ucln(long long a, long long b) { while (a != 0) { long long uc = a; a = b % a ; b = uc; } return b; }
 inline long long bcnn(long long a, long long b) { long long res = (a * b) / ucln(a, b); return res; }
 inline long long luythua(long long a, long long b) { long long res = 1; while (b) { if (b & 1) { res *= a; } a = a * a; b >>= 1; } return res; }
-inline long long giathua(long long num) { unsigned long long res = 1; forr(i, 2, num, 1) res *= i; return res; }
+inline long long giathua(long long num) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res *= i; return res; }
 inline long long luythualaydu (long long a, long long b, long long mod) { long long res = 1; a = a % mod; while (b > 0) { if (b & 1) { res = (res * a) % mod; } a = (a * a) % mod; b >>= 1; } return res; }
-inline long long giathualaydu (long long num, long long mod) { unsigned long long res = 1; forr(i, 2, num, 1) res = (res * i) % mod; return res; }
+inline long long giathualaydu (long long num, long long mod) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res = (res * i) % mod; return res; }
 inline long long ceil_safe(long long num) { if (num <= 0) { return 0; } long long num_sqrt = (long long)sqrt((double)(num - 1)); while (num_sqrt * num_sqrt > num - 1) { num_sqrt--; } while ((num_sqrt + 1) * (num_sqrt + 1) <= num - 1) { num_sqrt++; } num_sqrt++; return num_sqrt; }
 inline long long floor_safe(long long num) { if (num <= 0) { return 0; } long long num_sqrt = (long long)sqrt((double)num); while (num_sqrt * num_sqrt > num) { num_sqrt--; } while ((num_sqrt + 1) * (num_sqrt + 1) <= num) { num_sqrt++; } return num_sqrt; }
 

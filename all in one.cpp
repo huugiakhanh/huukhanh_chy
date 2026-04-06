@@ -1,0 +1,172 @@
+// huu khanh chy
+// #pragma once
+
+#define anhnguyet_huukhanh
+#ifdef anhnguyet_huukhanh
+    #pragma GCC optimize("Ofast")
+    #pragma GCC optimize("O3")
+    #pragma GCC optimize("unroll-loops")
+    #pragma GCC target("avx,avx2")
+    #pragma GCC target("bmi,bmi2")
+    #pragma GCC target("popcnt,lzcnt")
+    #pragma GCC optimize("inline")
+    #pragma GCC optimize("fast-math")
+#endif
+
+// #pragma GCC optimize("Os")
+// #pragma GCC optimize("O2")
+// #pragma GCC optimize("inline")
+// #pragma GCC optimize("fast-math")
+// #pragma GCC target("fma")
+// #pragma GCC target("sse,sse2")
+// #pragma GCC target("sse3,ssse3")
+// #pragma GCC target("sse4.1,sse4.2")
+
+#include <bits/stdc++.h>
+#include <ext/pb_ds/tree_policy.hpp>
+#include <ext/pb_ds/assoc_container.hpp>
+
+#define FOR(i, n) for(long long (i) = 0; (i) < (n); ++(i))
+#define forr(i, l, r) for (long long i = (l); i <= (r); ++i)
+#define rfor(i, r, l) for (long long i = (r); i >= (l); --i)
+#define SORT(a) sort((a).begin(), (a).end())
+#define RSORT(a) sort((a).begin(), (a).end(), greater<long long>())
+#define sortt(a, type) sort((a).begin(), (a).end(), type)
+#define for_Cout(a, char) for (auto c : (a)) cout << c << char;
+#define REV(s) reverse((s).begin(), (s).end())
+#define mset(a, valueptr) memset(a, valueptr, sizeof a)
+#define biton(x, i) ((x) >> (i) & 1)
+#define MASK(i) (1ll << (i))
+#define TIMEi cerr << "Time input: " << 1.0 * clock() / CLOCKS_PER_SEC << "s\n"
+#define TIMEo cerr << "Time output: " << 1.0 * clock() / CLOCKS_PER_SEC << "s\n"
+#define F first
+#define S second
+#define pub push_back
+#define ins insert
+#define All(x) (x).begin(), (x).end()
+#define pii pair<int, int>
+#define pli pair<long long, int>
+#define pll pair<long long, long long>
+#define vll vector<long long>
+#define vit vector<int>
+#define vbl vector<bool>
+#define vstr vector<string>
+#define v(datatype) vector<datatype>
+#define vvll vector<vector<long long>>
+#define umap unordered_map
+#define uset unordered_set
+#define hmap p_hash_table
+#define NAME ""
+
+template<typename value> void read(value &x) noexcept(true) { x = 0; int sign = 1, c = getchar(); while (c != '-' && (c < '0' || c > '9')) { c = getchar(); } if (c == '-') { sign = -1, c = getchar(); } while (c >= '0' && c <= '9') { x = x * 10 + (c - '0'); c = getchar(); } x *= sign; }
+template<typename value> void write(value x) noexcept(true) {if (x < 0) { putchar('-'); x = -x; } if (x > 9) { write(x / 10); } putchar(char('0' + x % 10)); }
+template<typename... value> void inall(value&... valueofvalue) noexcept(true) { ((std::cin >> valueofvalue), ...); }
+template<typename... value> void outall(char valueofchar, const value&... valueofvalue) noexcept(true) { ((std::cout << valueofvalue << valueofchar), ...); std::cout << valueofchar; }
+template<typename... value> void inallf(value&... valueofvalue) noexcept(true) { ((read(valueofvalue)), ...);}
+template<typename... value> void outallf(char valueofchar, const value&... valueofvalue) noexcept(true) { ((write(valueofvalue), putchar(valueofchar)), ...); }
+template<class X, class Y> bool maximize(X& x, const Y& y) { if (x < y) { x = y; return true; } return false; }
+template<class X, class Y> bool minimize(X& x, const Y& y) { if (x > y) { x = y; return true; } return false; }
+template<class T> using ordered_set = __gnu_pbds::tree<T, __gnu_pbds::null_type, std::less<T>, __gnu_pbds::rb_tree_tag, __gnu_pbds::tree_order_statistics_node_update>;
+template<class T> using ordered_multiset = __gnu_pbds::tree<std::pair<T,int>, __gnu_pbds::null_type, std::less<std::pair<T,int>>, __gnu_pbds::rb_tree_tag, __gnu_pbds::tree_order_statistics_node_update>;
+
+// của int128
+__int128 read128() { __int128 x = 0, f = 1; char ch = getchar(); while (ch < '0' || ch > '9') { if (ch == '-') f = -1; ch = getchar(); } while (ch >= '0' && ch <= '9') { x = x * 10 + ch - '0'; ch = getchar(); } return x * f; }
+void print128(__int128 x) noexcept(true) { if (x < 0) { putchar('-'); x = -x; } if (x > 9) { print128(x / 10); } putchar(x % 10 + '0'); }
+bool cmp128(__int128 x, __int128 y) { return x > y; }
+// của int128
+
+inline void fastIO() noexcept(true) { std::ios::sync_with_stdio(false); std::cin.tie(nullptr); std::cout.tie(nullptr); }
+inline void inputfile(const std::string& TASK) noexcept(true) { std::string file = TASK + ".INP"; if (FILE* f = fopen(file.c_str(), "r")) { freopen(file.c_str(), "r", stdin); fclose(f); } }
+inline void outputfile(const std::string& TASK) noexcept(true) { std::string file = TASK + ".OUT"; if (fopen(file.c_str(), "w")) { freopen(file.c_str(), "w", stdout); } }
+
+std::mt19937 rd(std::chrono::steady_clock::now().time_since_epoch().count());
+
+inline long long RAND(long long l, long long h) { return std::uniform_int_distribution<long long>(l, h)(rd); }
+inline long long ucln(long long a, long long b) { while (a != 0) { long long uc = a; a = b % a ; b = uc; } return b; }
+inline long long bcnn(long long a, long long b) { long long res = (a * b) / ucln(a, b); return res; }
+inline long long luythua(long long a, long long b) { long long res = 1; while (b) { if (b & 1) { res *= a; } a = a * a; b >>= 1; } return res; }
+inline long long giathua(long long num) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res *= i; return res; }
+inline long long luythualaydu (long long a, long long b, long long mod) { long long res = 1; a = a % mod; while (b > 0) { if (b & 1) { res = (res * a) % mod; } a = (a * a) % mod; b >>= 1; } return res; }
+inline long long giathualaydu (long long num, long long mod) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res = (res * i) % mod; return res; }
+inline long long ceil_safe(long long num) { if (num <= 0) { return 0; } long long num_sqrt = (long long)sqrt((double)(num - 1)); while (num_sqrt * num_sqrt > num - 1) { num_sqrt--; } while ((num_sqrt + 1) * (num_sqrt + 1) <= num - 1) { num_sqrt++; } num_sqrt++; return num_sqrt; }
+inline long long floor_safe(long long num) { if (num <= 0) { return 0; } long long num_sqrt = (long long)sqrt((double)num); while (num_sqrt * num_sqrt > num) { num_sqrt--; } while ((num_sqrt + 1) * (num_sqrt + 1) <= num) { num_sqrt++; } return num_sqrt; }
+
+
+using namespace std;
+using namespace __gnu_pbds;
+
+void make_test(const string& name) {
+    ofstream fout(name + ".inp");
+    // sinh test ở đây chú ý dùng fout chứ không dùng cout
+    
+}
+void compare_test(const string& name, int n_test) {
+    for (int anh_nguyet = 1; anh_nguyet <= n_test; ++anh_nguyet) {
+        make_test(name);
+        system((name + "_trau.exe").c_str());
+        system((name + ".exe").c_str());
+        if (system(("fc " + name + ".out " + name + ".ans").c_str()) != 0) {
+            cout << "Test " << anh_nguyet << ": WRONG!\n";
+            return;
+        }
+        cout << "Test " << anh_nguyet << ": CORRECT!\n";
+    }
+}
+void create_test(const string& name, int n_test) {
+    system("if not exist test mkdir test");
+    for (int anh_nguyet = 1; anh_nguyet <= n_test; ++anh_nguyet) {
+        make_test(name);
+        system((name + "_trau.exe").c_str());
+        string folder = "test\\TEST " + to_string(anh_nguyet);
+        system(("if not exist \"" + folder + "\" mkdir \"" + folder + "\"").c_str());
+        system(("copy " + name + ".inp \"" + folder + "\\" + name + ".inp\"").c_str());
+        system(("copy " + name + ".ans \"" + folder + "\\" + name + ".out\"").c_str());
+        cout << "Generated test " << anh_nguyet << '\n';
+    }
+}
+
+typedef char cr;
+typedef string str;
+typedef long long ll;
+typedef short sh;
+typedef unsigned long long ull;
+typedef double db;
+typedef bool bl;
+typedef long double ldb;
+typedef __int128 int128;
+
+constexpr long long n_test_mn = 10;
+constexpr long long n_test_nr = 100;
+constexpr long long n_test_mx = 10000;
+constexpr long long l_mmx = -1000000;
+constexpr long long r_mm = 1000000;
+constexpr long long r_nr1 = 1000000000;
+constexpr long long r_nr2 = 2000000000;
+constexpr long long r_mx = 1000000000000000000;
+constexpr long long MOD1 = 1000000007LL;
+constexpr long long MOD2 = 1000000009LL;
+constexpr long long MOD3 = 2147483647LL;
+constexpr long long INF = 1000000000000000000LL;
+constexpr int base1= 310;
+constexpr int base2 = 256;
+constexpr long long MAXn = 1000007;
+const string name = "name";
+
+void input() noexcept(true) {
+
+    TIMEi;
+}
+void output() noexcept(true) {
+
+    TIMEo;
+}
+
+void type01() noexcept(true) { input(), output(); }
+// void type02() noexcept(true) {  compare_test(name, n_test_nr); create_test("name", n_test_nr); }
+int main() {
+    fastIO();
+    // type02();
+    inputfile("name"), outputfile("name");
+    type01();
+    return 0;
+}

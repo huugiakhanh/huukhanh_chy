@@ -1,26 +1,24 @@
-// #pragma once
 // huu khanh chy
-#define anhnguyet_huukhanh
 
-#ifdef anhnguyet_huukhanh
-    #pragma GCC optimize("Ofast")
-    #pragma GCC optimize("O3")
-    #pragma GCC optimize("unroll-loops")
-    #pragma GCC target("avx,avx2")
-    #pragma GCC target("bmi,bmi2")
-    #pragma GCC target("popcnt,lzcnt")
-    #pragma GCC optimize("inline")
-    #pragma GCC optimize("fast-math")
-#endif
-
+// #pragma once
 // #pragma GCC optimize("Os")
 // #pragma GCC optimize("O2")
-// #pragma GCC optimize("inline")
-// #pragma GCC optimize("fast-math")
 // #pragma GCC target("fma")
 // #pragma GCC target("sse,sse2")
 // #pragma GCC target("sse3,ssse3")
 // #pragma GCC target("sse4.1,sse4.2")
+// #pragma GCC target("bmi,bmi2")
+// #pragma GCC target("popcnt,lzcnt")
+// #pragma GCC optimize("inline")
+// #pragma GCC optimize("fast-math")
+// #pragma GCC optimize("Ofast")
+
+// #define anhnguyet_huukhanh
+#ifdef anhnguyet_huukhanh
+    #pragma GCC optimize("O3")
+    #pragma GCC optimize("unroll-loops")
+    #pragma GCC target("avx,avx2")
+#endif
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/tree_policy.hpp>

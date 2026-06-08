@@ -40,18 +40,21 @@
 #define vit vector<int>
 #define vbl vector<bool>
 #define vstr vector<string>
-#define v(struct) vector<struct>
+#define v(data_type) vector<data_type>
 #define vvll vector<vector<long long>>
+#define vvll vector<vector<long long>>
+#define vvit vector<vector<int>>
+#define vvbl vector<vector<bool>>
 #define umap unordered_map
 #define uset unordered_set
 #define hmap p_hash_table
 
 template<typename value> void read(value &x) noexcept(true) { x = 0; int sign = 1, c = getchar(); while (c != '-' && (c < '0' || c > '9')) { c = getchar(); } if (c == '-') { sign = -1, c = getchar(); } while (c >= '0' && c <= '9') { x = x * 10 + (c - '0'); c = getchar(); } x *= sign; }
 template<typename value> void write(value x) noexcept(true) {if (x < 0) { putchar('-'); x = -x; } if (x > 9) { write(x / 10); } putchar(char('0' + x % 10)); }
-template<typename... value> void inall(value&... valueofvalue) noexcept(true) { ((std::cin >> valueofvalue), ...); }
-template<typename... value> void outall(char valueofchar, const value&... valueofvalue) noexcept(true) { ((std::cout << valueofvalue << valueofchar), ...); std::cout << valueofchar; }
-template<typename... value> void inallf(value&... valueofvalue) noexcept(true) { ((read(valueofvalue)), ...);}
-template<typename... value> void outallf(char valueofchar, const value&... valueofvalue) noexcept(true) { ((write(valueofvalue), putchar(valueofchar)), ...); }
+template<typename... value> void inall(value&... value_of_value) noexcept(true) { ((std::cin >> value_of_value), ...); }
+template<typename... value> void outall(char value_of_char, const value&... value_of_value) noexcept(true) { ((std::cout << value_of_value << value_of_char), ...); }
+template<typename... value> void inallf(value&... value_of_value) noexcept(true) { ((read(value_of_value)), ...);}
+template<typename... value> void outallf(char value_of_char, const value&... value_of_value) noexcept(true) { ((write(value_of_value), putchar(value_of_char)), ...); }
 template<class T> using ordered_set = __gnu_pbds::tree<T, __gnu_pbds::null_type, std::less<T>, __gnu_pbds::rb_tree_tag, __gnu_pbds::tree_order_statistics_node_update>;
 template<class T> using ordered_multiset = __gnu_pbds::tree<std::pair<T,int>, __gnu_pbds::null_type, std::less<std::pair<T,int>>, __gnu_pbds::rb_tree_tag, __gnu_pbds::tree_order_statistics_node_update>;
 

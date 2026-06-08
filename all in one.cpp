@@ -48,8 +48,10 @@
 #define vit vector<int>
 #define vbl vector<bool>
 #define vstr vector<string>
-#define v(datatype) vector<datatype>
+#define v(data_type) vector<data_type>
 #define vvll vector<vector<long long>>
+#define vvit vector<vector<int>>
+#define vvbl vector<vector<bool>>
 #define umap unordered_map
 #define uset unordered_set
 #define hmap p_hash_table
@@ -57,10 +59,10 @@
 
 template<typename value> void read(value &x) noexcept(true) { x = 0; int sign = 1, c = getchar(); while (c != '-' && (c < '0' || c > '9')) { c = getchar(); } if (c == '-') { sign = -1, c = getchar(); } while (c >= '0' && c <= '9') { x = x * 10 + (c - '0'); c = getchar(); } x *= sign; }
 template<typename value> void write(value x) noexcept(true) {if (x < 0) { putchar('-'); x = -x; } if (x > 9) { write(x / 10); } putchar(char('0' + x % 10)); }
-template<typename... value> void inall(value&... valueofvalue) noexcept(true) { ((std::cin >> valueofvalue), ...); }
-template<typename... value> void outall(char valueofchar, const value&... valueofvalue) noexcept(true) { ((std::cout << valueofvalue << valueofchar), ...); std::cout << valueofchar; }
-template<typename... value> void inallf(value&... valueofvalue) noexcept(true) { ((read(valueofvalue)), ...);}
-template<typename... value> void outallf(char valueofchar, const value&... valueofvalue) noexcept(true) { ((write(valueofvalue), putchar(valueofchar)), ...); }
+template<typename... value> void inall(value&... value_of_value) noexcept(true) { ((std::cin >> value_of_value), ...); }
+template<typename... value> void outall(char value_of_char, const value&... value_of_value) noexcept(true) { ((std::cout << value_of_value << value_of_char), ...); }
+template<typename... value> void inallf(value&... value_of_value) noexcept(true) { ((read(value_of_value)), ...);}
+template<typename... value> void outallf(char value_of_char, const value&... value_of_value) noexcept(true) { ((write(value_of_value), putchar(value_of_char)), ...); }
 template<class X, class Y> bool maximize(X& x, const Y& y) { if (x < y) { x = y; return true; } return false; }
 template<class X, class Y> bool minimize(X& x, const Y& y) { if (x > y) { x = y; return true; } return false; }
 template<class T> using ordered_set = __gnu_pbds::tree<T, __gnu_pbds::null_type, std::less<T>, __gnu_pbds::rb_tree_tag, __gnu_pbds::tree_order_statistics_node_update>;
@@ -73,21 +75,20 @@ bool cmp128(__int128 x, __int128 y) { return x > y; }
 // của int128
 
 inline void fastIO() noexcept(true) { std::ios::sync_with_stdio(false); std::cin.tie(nullptr); std::cout.tie(nullptr); }
-inline void inputfile(const std::string& TASK) noexcept(true) { std::string file = TASK + ".INP"; if (FILE* f = fopen(file.c_str(), "r")) { freopen(file.c_str(), "r", stdin); fclose(f); } }
-inline void outputfile(const std::string& TASK) noexcept(true) { std::string file = TASK + ".OUT"; if (fopen(file.c_str(), "w")) { freopen(file.c_str(), "w", stdout); } }
+inline void input_file(const std::string& TASK) noexcept(true) { std::string file = TASK + ".INP"; if (FILE* f = fopen(file.c_str(), "r")) { freopen(file.c_str(), "r", stdin); fclose(f); } }
+inline void output_file(const std::string& TASK) noexcept(true) { std::string file = TASK + ".OUT"; if (fopen(file.c_str(), "w")) { freopen(file.c_str(), "w", stdout); } }
 
 std::mt19937 rd(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline long long RAND(long long l, long long h) { return std::uniform_int_distribution<long long>(l, h)(rd); }
-inline long long ucln(long long a, long long b) { while (a != 0) { long long uc = a; a = b % a ; b = uc; } return b; }
-inline long long bcnn(long long a, long long b) { long long res = (a * b) / ucln(a, b); return res; }
-inline long long luythua(long long a, long long b) { long long res = 1; while (b) { if (b & 1) { res *= a; } a = a * a; b >>= 1; } return res; }
-inline long long giathua(long long num) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res *= i; return res; }
-inline long long luythualaydu (long long a, long long b, long long mod) { long long res = 1; a = a % mod; while (b > 0) { if (b & 1) { res = (res * a) % mod; } a = (a * a) % mod; b >>= 1; } return res; }
-inline long long giathualaydu (long long num, long long mod) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res = (res * i) % mod; return res; }
+inline long long gcd_(long long a, long long b) { while (a != 0) { long long uc = a; a = b % a ; b = uc; } return b; }
+inline long long lcd_(long long a, long long b) { long long res = (a * b) / gcd_(a, b); return res; }
+inline long long pow_(long long a, long long b) { long long res = 1; while (b) { if (b & 1) { res *= a; } a = a * a; b >>= 1; } return res; }
+inline long long fac_(long long num) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res *= i; return res; }
+inline long long pow_mod (long long a, long long b, long long mod) { long long res = 1; a = a % mod; while (b > 0) { if (b & 1) { res = (res * a) % mod; } a = (a * a) % mod; b >>= 1; } return res; }
+inline long long fac_mod (long long num, long long mod) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res = (res * i) % mod; return res; }
 inline long long ceil_safe(long long num) { if (num <= 0) { return 0; } long long num_sqrt = (long long)sqrt((double)(num - 1)); while (num_sqrt * num_sqrt > num - 1) { num_sqrt--; } while ((num_sqrt + 1) * (num_sqrt + 1) <= num - 1) { num_sqrt++; } num_sqrt++; return num_sqrt; }
 inline long long floor_safe(long long num) { if (num <= 0) { return 0; } long long num_sqrt = (long long)sqrt((double)num); while (num_sqrt * num_sqrt > num) { num_sqrt--; } while ((num_sqrt + 1) * (num_sqrt + 1) <= num) { num_sqrt++; } return num_sqrt; }
-
 
 using namespace std;
 using namespace __gnu_pbds;
@@ -95,7 +96,6 @@ using namespace __gnu_pbds;
 void make_test(const string& name) {
     ofstream fout(name + ".inp");
     // sinh test ở đây chú ý dùng fout chứ không dùng cout
-    
 }
 void compare_test(const string& name, int n_test) {
     for (int anh_nguyet = 1; anh_nguyet <= n_test; ++anh_nguyet) {
@@ -159,11 +159,12 @@ void output() noexcept(true) {
 }
 
 void type01() noexcept(true) { input(), output(); }
-// void type02() noexcept(true) {  compare_test(name, n_test_nr); create_test("name", n_test_nr); }
+// void type02_1() noexcept(true) { check_test::(name, n_test_nr); }
+// void type02_2() noexcept(true) { create_test("name", n_test_nr); }
 int main() {
     fastIO();
     // type02();
-    inputfile("name"), outputfile("name");
+    input_file("name"), output_file("name");
     type01();
     return 0;
 }

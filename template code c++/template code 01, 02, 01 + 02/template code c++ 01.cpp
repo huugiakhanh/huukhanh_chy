@@ -23,8 +23,8 @@
 #include <bits/stdc++.h>
 
 #define FOR(i, n) for(long long (i) = 0; (i) < (n); ++(i))
-#define forr(i, l, r) for (long long i = (l); i <= (r); ++i)
-#define rfor(i, r, l) for (long long i = (r); i >= (l); --i)
+#define forr(i, l, r) for (long long (i) = (l); i <= (r); ++(i))
+#define rfor(i, r, l) for (long long (i) = (r); i >= (l); --(i))
 #define SORT(a) sort((a).begin(), (a).end())
 #define RSORT(a) sort((a).begin(), (a).end(), greater<long long>())
 #define sortt(a, type) sort((a).begin(), (a).end(), type)
@@ -46,24 +46,26 @@
 #define vit vector<int>
 #define vbl vector<bool>
 #define vstr vector<string>
-#define v(datatype) vector<datatype>
+#define v(data_type) vector<data_type>
 #define vvll vector<vector<long long>>
+#define vvit vector<vector<int>>
+#define vvbl vector<vector<bool>>
 #define TASK "name"
 
-template<typename... value> void inall(value&... valueofvalue) { ((std::cin >> valueofvalue), ...); }
-template<typename... value> void outall(char valueofchar, const value&... valueofvalue) { ((std::cout << valueofvalue << valueofchar), ...); std::cout << valueofchar; }
+template<typename... value> void inall(value&... value_of_value) { ((std::cin >> value_of_value), ...); }
+template<typename... value> void outall(char value_of_char, const value&... value_of_value) { ((std::cout << value_of_value << value_of_char), ...); }
 template<class X, class Y> bool maximize(X& x, const Y& y) { if (x < y) { x = y; return true; } return false; }
 template<class X, class Y> bool minimize(X& x, const Y& y) { if (x > y) { x = y; return true; } return false; }
 
 using namespace std;
 
 inline void fastIO() noexcept(true) { ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr); }
-inline long long ucln(long long a, long long b) { while (a != 0) { long long uc = a; a = b % a ; b = uc; } return b; }
-inline long long bcnn(long long a, long long b) { long long res = (a * b) / ucln(a, b); return res; }
-inline long long luythua(long long a, long long b) { long long res = 1; while (b) { if (b & 1) { res *= a; } a = a * a; b >>= 1; } return res; }
-inline long long giathua(long long num) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res *= i; return res; }
-inline long long luythualaydu (long long a, long long b, long long mod) { long long res = 1; a = a % mod; while (b > 0) { if (b & 1) { res = (res * a) % mod; } a = (a * a) % mod; b >>= 1; } return res; }
-inline long long giathualaydu (long long num, long long mod) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res = (res * i) % mod; return res; }
+inline long long gcd_(long long a, long long b) { while (a != 0) { long long uc = a; a = b % a ; b = uc; } return b; }
+inline long long lcd_(long long a, long long b) { long long res = (a * b) / gcd_(a, b); return res; }
+inline long long pow_(long long a, long long b) { long long res = 1; while (b) { if (b & 1) { res *= a; } a = a * a; b >>= 1; } return res; }
+inline long long fac_(long long num) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res *= i; return res; }
+inline long long pow_mod (long long a, long long b, long long mod) { long long res = 1; a = a % mod; while (b > 0) { if (b & 1) { res = (res * a) % mod; } a = (a * a) % mod; b >>= 1; } return res; }
+inline long long fac_mod (long long num, long long mod) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res = (res * i) % mod; return res; }
 
 typedef short sh;
 typedef char cr;
@@ -83,7 +85,7 @@ constexpr int base2 = 256;
 constexpr long long MAXn = 100007;
 
 void input() noexcept(true) {
-    
+
     TIME;
 }
 void output() noexcept(true) {

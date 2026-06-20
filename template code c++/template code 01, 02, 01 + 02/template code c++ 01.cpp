@@ -60,12 +60,15 @@ template<class X, class Y> bool minimize(X& x, const Y& y) { if (x > y) { x = y;
 using namespace std;
 
 inline void fastIO() noexcept(true) { ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr); }
-inline long long gcd_(long long a, long long b) { while (a != 0) { long long uc = a; a = b % a ; b = uc; } return b; }
-inline long long lcd_(long long a, long long b) { long long res = (a * b) / gcd_(a, b); return res; }
-inline long long pow_(long long a, long long b) { long long res = 1; while (b) { if (b & 1) { res *= a; } a = a * a; b >>= 1; } return res; }
-inline long long fac_(long long num) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res *= i; return res; }
-inline long long pow_mod (long long a, long long b, long long mod) { long long res = 1; a = a % mod; while (b > 0) { if (b & 1) { res = (res * a) % mod; } a = (a * a) % mod; b >>= 1; } return res; }
-inline long long fac_mod (long long num, long long mod) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res = (res * i) % mod; return res; }
+inline long long gcd_(long long a, long long b) noexcept(true) { while (a != 0) { long long uc = a; a = b % a ; b = uc; } return b; }
+inline long long lcd_(long long a, long long b) noexcept(true) { long long res = (a * b) / gcd_(a, b); return res; }
+inline long long pow_(long long a, long long b) noexcept(true) { long long res = 1; while (b) { if (b & 1) { res *= a; } a = a * a; b >>= 1; } return res; }
+inline long long fac_(long long num) noexcept(true) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res *= i; return res; }
+inline long long pow_mod (long long a, long long b, long long mod) noexcept(true) { long long res = 1; a = a % mod; while (b > 0) { if (b & 1) { res = (res * a) % mod; } a = (a * a) % mod; b >>= 1; } return res; }
+inline long long fac_mod (long long num, long long mod) noexcept(true) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res = (res * i) % mod; return res; }
+inline long long ceil_safe(long long num) noexcept(true) { if (num <= 0) { return 0; } long long num_sqrt = (long long)sqrt((double)(num - 1)); while (num_sqrt * num_sqrt > num - 1) { num_sqrt--; } while ((num_sqrt + 1) * (num_sqrt + 1) <= num - 1) { num_sqrt++; } num_sqrt++; return num_sqrt; }
+inline long long floor_safe(long long num) noexcept(true) { if (num <= 0) { return 0; } long long num_sqrt = (long long)sqrt((double)num); while (num_sqrt * num_sqrt > num) { num_sqrt--; } while ((num_sqrt + 1) * (num_sqrt + 1) <= num) { num_sqrt++; } return num_sqrt; }
+
 
 typedef short sh;
 typedef char cr;
@@ -89,7 +92,7 @@ void input() noexcept(true) {
     TIME;
 }
 void output() noexcept(true) {
-    
+
     TIME;
 }
 

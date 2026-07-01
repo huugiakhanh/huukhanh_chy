@@ -1,0 +1,288 @@
+
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--font-sans, sans-serif); }
+  .wrap { padding: 16px 0; }
+  .controls { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
+  .controls label { font-size: 13px; color: var(--text-secondary); }
+  .btn { font-size: 13px; padding: 6px 14px; border: 0.5px solid var(--border-strong); border-radius: var(--radius); background: transparent; color: var(--text-primary); cursor: pointer; transition: background .15s; }
+  .btn:hover { background: var(--surface-1); }
+  .btn.active { background: var(--bg-accent); color: var(--text-accent); border-color: var(--border-accent); }
+  .legend { display: flex; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
+  .leg { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); }
+  .dot { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+  .stat { display: flex; gap: 20px; margin-top: 14px; flex-wrap: wrap; }
+  .sc { background: var(--surface-1); border-radius: 8px; padding: 8px 14px; font-size: 12px; color: var(--text-secondary); min-width: 120px; }
+  .sc strong { display: block; font-size: 18px; font-weight: 500; color: var(--text-primary); margin-bottom: 2px; }
+  .step-info { margin-top: 14px; font-size: 13px; color: var(--text-secondary); min-height: 22px; }
+  .step-info span { color: var(--text-primary); font-weight: 500; }
+  select { font-size: 13px; padding: 5px 8px; border: 0.5px solid var(--border-strong); border-radius: var(--radius); background: var(--surface-1); color: var(--text-primary); }
+</style>
+<div class="wrap">
+  <div class="controls">
+    <div>
+      <label>Tốc độ</label><br>
+      <select id="speed">
+        <option value="700">Chậm</option>
+        <option value="350" selected>Vừa</option>
+        <option value="120">Nhanh</option>
+      </select>
+    </div>
+    <div>
+      <label>Chế độ so sánh</label><br>
+      <div style="display:flex;gap:6px;margin-top:4px">
+        <button class="btn active" id="btn-mo" onclick="setMode('mo')">Mo's</button>
+        <button class="btn" id="btn-naive" onclick="setMode('naive')">Ngây thơ</button>
+      </div>
+    </div>
+    <div style="margin-left:auto;display:flex;gap:8px;align-items:flex-end">
+      <button class="btn" onclick="reset()">↺ Reset</button>
+      <button class="btn" id="playbtn" onclick="togglePlay()">▶ Chạy</button>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="leg"><div class="dot" style="background:#3B8BD4"></div>Cửa sổ hiện tại [l,r]</div>
+    <div class="leg"><div class="dot" style="background:#1D9E75"></div>Truy vấn đang xử lý</div>
+    <div class="leg"><div class="dot" style="background:#EF9F27;opacity:.45"></div>Block boundary</div>
+    <div class="leg"><div class="dot" style="background:#D85A30"></div>Truy vấn đã xong</div>
+  </div>
+
+  <canvas id="cv" width="648" height="320" style="width:100%;border-radius:8px"></canvas>
+
+  <div class="stat">
+    <div class="sc"><strong id="s-moves">0</strong>Tổng di chuyển</div>
+    <div class="sc"><strong id="s-q">0 / 0</strong>Truy vấn</div>
+    <div class="sc"><strong id="s-l">—</strong>Con trỏ l</div>
+    <div class="sc"><strong id="s-r">—</strong>Con trỏ r</div>
+  </div>
+  <div class="step-info" id="step-info">Nhấn ▶ để bắt đầu minh họa.</div>
+</div>
+
+<script>
+const N = 16, Q = 8;
+const B = Math.ceil(Math.sqrt(N));
+
+const arr = Array.from({length:N},(_,i)=>Math.floor(Math.random()*9)+1);
+
+function genQueries(){
+  let qs=[];
+  for(let i=0;i<Q;i++){
+    let a=Math.floor(Math.random()*N), b=Math.floor(Math.random()*N);
+    if(a>b)[a,b]=[b,a];
+    qs.push({l:a,r:b,id:i});
+  }
+  return qs;
+}
+
+const rawQueries = genQueries();
+
+function sortMo(qs){
+  return [...qs].sort((a,b)=>{
+    let ba=Math.floor(a.l/B), bb=Math.floor(b.l/B);
+    if(ba!==bb) return ba-bb;
+    return (ba&1)? b.r-a.r : a.r-b.r;
+  });
+}
+function sortNaive(qs){ return [...qs]; }
+
+let mode='mo', playing=false, timer=null;
+let queries=[], steps=[], stepIdx=0, moves=0;
+
+function buildSteps(qs){
+  let st=[],curL=0,curR=-1,mv=0;
+  for(let q of qs){
+    let pm=mv;
+    while(curR<q.r){curR++;mv++;}
+    while(curL>q.l){curL--;mv++;}
+    while(curR>q.r){curR--;mv++;}
+    while(curL<q.l){curL++;mv++;}
+    st.push({l:curL,r:curR,qid:q.id,moves:mv,dMoves:mv-pm});
+  }
+  return st;
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('btn-mo').classList.toggle('active',m==='mo');
+  document.getElementById('btn-naive').classList.toggle('active',m==='naive');
+  reset();
+}
+
+function reset(){
+  clearInterval(timer); playing=false;
+  document.getElementById('playbtn').textContent='▶ Chạy';
+  queries = mode==='mo'? sortMo(rawQueries) : sortNaive(rawQueries);
+  steps = buildSteps(queries);
+  stepIdx=0; moves=0;
+  updateStats(null);
+  document.getElementById('step-info').innerHTML='Nhấn ▶ để bắt đầu minh họa.';
+  draw(null);
+}
+
+function togglePlay(){
+  if(playing){
+    clearInterval(timer); playing=false;
+    document.getElementById('playbtn').textContent='▶ Chạy';
+  } else {
+    if(stepIdx>=steps.length){ stepIdx=0; }
+    playing=true;
+    document.getElementById('playbtn').textContent='⏸ Dừng';
+    step();
+    timer=setInterval(()=>{
+      if(stepIdx>=steps.length){ clearInterval(timer); playing=false; document.getElementById('playbtn').textContent='▶ Xong'; return; }
+      step();
+    }, parseInt(document.getElementById('speed').value));
+  }
+}
+
+function step(){
+  if(stepIdx>=steps.length) return;
+  let s=steps[stepIdx];
+  moves=s.moves;
+  updateStats(s);
+  draw(s);
+  stepIdx++;
+}
+
+function updateStats(s){
+  document.getElementById('s-moves').textContent=s?s.moves:0;
+  document.getElementById('s-q').textContent=s?(stepIdx+'/'+Q):'0/'+Q;
+  document.getElementById('s-l').textContent=s?s.l:'—';
+  document.getElementById('s-r').textContent=s?s.r:'—';
+  if(s){
+    let q=rawQueries[s.qid];
+    document.getElementById('step-info').innerHTML=
+      `Truy vấn #${s.qid+1}: [<span>${q.l}</span>, <span>${q.r}</span>] — di chuyển +<span>${s.dMoves}</span> bước`;
+  }
+}
+
+const cv=document.getElementById('cv');
+const ctx=cv.getContext('2d');
+const W=648, H=320;
+cv.width=W; cv.height=H;
+
+function isDark(){ return matchMedia('(prefers-color-scheme: dark)').matches; }
+function getColor(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim() || (isDark()?'#c2c0b6':'#3d3d3a'); }
+
+function draw(s){
+  ctx.clearRect(0,0,W,H);
+  const dark=isDark();
+  const textPrimary = dark?'#c2c0b6':'#3d3d3a';
+  const textMuted = dark?'#888780':'#888780';
+  const borderColor = dark?'rgba(255,255,255,0.12)':'rgba(0,0,0,0.1)';
+
+  // --- Array row ---
+  const ax=24, ay=36, cellW=Math.floor((W-48)/N), cellH=40;
+
+  // Block boundaries
+  for(let b=0;b<Math.ceil(N/B);b++){
+    let bx=ax+b*B*cellW;
+    ctx.save();
+    ctx.globalAlpha=0.18;
+    ctx.fillStyle='#EF9F27';
+    ctx.fillRect(bx,ay,B*cellW,cellH);
+    ctx.restore();
+    ctx.fillStyle='#BA7517';
+    ctx.font='11px sans-serif';
+    ctx.textAlign='left';
+    ctx.fillText('B'+b, bx+3, ay-6);
+  }
+
+  // Highlight current window
+  if(s){
+    let wx=ax+s.l*cellW, ww=(s.r-s.l+1)*cellW;
+    ctx.save();
+    ctx.globalAlpha=0.22;
+    ctx.fillStyle='#3B8BD4';
+    ctx.fillRect(wx,ay,ww,cellH);
+    ctx.restore();
+    // l/r labels
+    ctx.fillStyle='#185FA5';
+    ctx.font='500 12px sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText('l', ax+s.l*cellW+cellW/2, ay-7);
+    ctx.fillText('r', ax+s.r*cellW+cellW/2, ay-7);
+  }
+
+  // Cells
+  for(let i=0;i<N;i++){
+    let x=ax+i*cellW, y=ay;
+    ctx.strokeStyle=borderColor;
+    ctx.lineWidth=0.5;
+    ctx.strokeRect(x,y,cellW,cellH);
+    ctx.fillStyle=textPrimary;
+    ctx.font='500 14px sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText(arr[i], x+cellW/2, y+cellH/2+5);
+    // index
+    ctx.fillStyle=textMuted;
+    ctx.font='10px sans-serif';
+    ctx.fillText(i, x+cellW/2, y+cellH+12);
+  }
+
+  // --- Query rows ---
+  const qy=120, qH=18, qGap=4;
+  ctx.fillStyle=textMuted;
+  ctx.font='11px sans-serif';
+  ctx.textAlign='left';
+  ctx.fillText('Thứ tự xử lý ('+(mode==='mo'?'Mo\'s':'Ngây thơ')+')', ax, qy-8);
+
+  for(let qi=0;qi<queries.length;qi++){
+    let q=queries[qi];
+    let qx=ax+q.l*cellW, qw=(q.r-q.l+1)*cellW;
+    let qyy=qy+qi*(qH+qGap);
+
+    let done=s && qi<stepIdx-1;
+    let current=s && qi===stepIdx-1;
+
+    ctx.globalAlpha=done?0.35:1;
+    if(done){
+      ctx.fillStyle='#D85A30';
+    } else if(current){
+      ctx.fillStyle='#1D9E75';
+    } else {
+      ctx.fillStyle=dark?'#444441':'#B4B2A9';
+    }
+    ctx.fillRect(qx, qyy, qw, qH);
+
+    ctx.globalAlpha=1;
+    ctx.fillStyle=current?'#085041':(done?'#4A1B0C':(dark?'#888780':'#888780'));
+    ctx.font=(current?'500 ':'')+'10px sans-serif';
+    ctx.textAlign='center';
+    if(qw>28) ctx.fillText(`[${q.l},${q.r}]`, qx+qw/2, qyy+qH/2+3.5);
+
+    // Block label
+    ctx.fillStyle=textMuted;
+    ctx.font='10px sans-serif';
+    ctx.textAlign='right';
+    ctx.fillText('#'+(qi+1), ax-4, qyy+qH/2+3.5);
+  }
+
+  // --- Move count bar ---
+  const maxMoves=(N+Q)*B;
+  const totalMoves=steps.length? steps[steps.length-1].moves : 0;
+  const bary=H-44, barW=W-48, barH=12;
+  ctx.fillStyle=textMuted;
+  ctx.font='11px sans-serif';
+  ctx.textAlign='left';
+  ctx.fillText('Tổng di chuyển', ax, bary-6);
+
+  ctx.strokeStyle=borderColor;
+  ctx.lineWidth=0.5;
+  ctx.strokeRect(ax,bary,barW,barH);
+
+  let prog=s? Math.min(s.moves/Math.max(totalMoves,1),1) : 0;
+  ctx.fillStyle=mode==='mo'?'#3B8BD4':'#D85A30';
+  ctx.globalAlpha=0.75;
+  ctx.fillRect(ax+0.5,bary+0.5,Math.max(0,(barW-1)*prog),barH-1);
+  ctx.globalAlpha=1;
+
+  ctx.fillStyle=textPrimary;
+  ctx.font='500 11px sans-serif';
+  ctx.textAlign='right';
+  if(s) ctx.fillText(s.moves+' bước', W-24, bary-6);
+}
+
+reset();
+</script>

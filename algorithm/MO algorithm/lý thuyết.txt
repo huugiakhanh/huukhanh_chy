@@ -1,0 +1,10 @@
+- Thuật toán MO hay: thuật toán chia căn
+- Là một kĩ thuật tiêu biểu trong kĩ thuận xử lí offline
+(*) 
+- xứ lí offine là: Ta có thể đọc vào tất cả các truy vấn. Sau đó có thể xử lí tuần tự từng truy vấn một hoặc có thể xử lí các truy vấn theo một thứ tự hợp lí khác để giải quyết bài toán hiệu quả.
+- trong khí xử lí online là: Ta không thể đọc được vào toàn bộ các truy vấn. Thông tin về các truy vấn sẽ được mã hóa, cần xử lí được truy vấn trước đó để giải mã, các truy vấn hoàn toàn bị phụ thuộc vào các truy vấn trước, không có cách nào ngoài việc xử lí tuần tự các truy vấn.. VD: 1 bài tính tổng trên đoạn L, R và tăng đoán L, R lên k đơn vị
+
+-Di chuyển của r: Trong mỗi block, r chỉ tăng dần → mỗi block tốn O(N). Có √N blocks → tổng O(N√N).Di chuyển của r: Trong mỗi block, r chỉ tăng dần → mỗi block tốn O(N). Có √N blocks → tổng O(N√N).
+-Di chuyển của l: Khi chuyển sang truy vấn tiếp theo trong cùng block, l di chuyển tối đa B = √N bước. Có Q truy vấn → tổng O(Q√N).
+
+=> Tổng: O((N + Q)·√N) — với N = Q = 10⁵ thì khoảng 3×10⁷, chạy được trong 1-2 giây.

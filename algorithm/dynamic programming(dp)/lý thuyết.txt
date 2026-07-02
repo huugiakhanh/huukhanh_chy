@@ -1,0 +1,7 @@
+- 3 bước để làm quy hoạch động:
+	+) bước 1: định nghĩa trạng thái mảng dp[i], dp[i][j] biểu diễn chính xác cho đại lượng nào? 
+	vd: dp[i] là đồ dài dãy con dài nhất kết thúc tại i
+	hay dp[i][j] là chọn đc j đơn vị, từ 1 đên i
+	vv.vvvv.....
+	+) bước 2: công thức chuyển trạng thái: làm sao để tính dp[i]?, dp[i] có thể tính từ dp[i-1] hay dp[j] (j từ 1 đến i - 1 hay như thế nảo?)
+	+) bước 3: xác định trường hợp cở sở, thường là dp[0] = ? hay dp[1] là gì đó,

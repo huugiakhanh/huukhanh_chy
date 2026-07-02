@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quy hoạch động — Tổng hợp lý thuyết & kỹ thuật</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/decaf.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
+<style>
+:root{
+  --bg:#0b0e14;
+  --panel:#10151d;
+  --panel-alt:#161c26;
+  --border:#232b38;
+  --text:#c9d1d9;
+  --text-dim:#7d8a9c;
+  --teal:#5ec9a8;
+  --amber:#e3b341;
+  --rose:#e2777a;
+  --blue:#6ca8f1;
+  --mono:'JetBrains Mono', monospace;
+  --display:'Space Grotesk', sans-serif;
+  --body:'Inter', sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--body);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- layout ---------- */
+.shell{display:flex; min-height:100vh;}
+.sidebar{
+  width:260px;
+  flex-shrink:0;
+  background:var(--panel);
+  border-right:1px solid var(--border);
+  padding:24px 0;
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow-y:auto;
+}
+.sidebar-brand{
+  padding:0 20px 20px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:16px;
+}
+.sidebar-brand .tag{
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--teal);
+  letter-spacing:0.08em;
+}
+.sidebar-brand h1{
+  font-family:var(--display);
+  font-size:19px;
+  margin:6px 0 0;
+  color:#fff;
+  font-weight:700;
+}
+nav.toc{padding:0 12px;}
+nav.toc a{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 10px;
+  border-radius:6px;
+  color:var(--text-dim);
+  text-decoration:none;
+  font-size:13.5px;
+  font-family:var(--mono);
+  transition:background .15s, color .15s;
+}
+nav.toc a .idx{ color:var(--border); font-size:11px; width:20px; }
+nav.toc a:hover{ background:var(--panel-alt); color:var(--text); }
+nav.toc a.active{ background:var(--panel-alt); color:var(--teal); }
+nav.toc a.active .idx{ color:var(--teal); }
+
+.main{ flex:1; min-width:0; }
+
+.hero{
+  padding:72px 56px 56px;
+  border-bottom:1px solid var(--border);
+  background:
+    radial-gradient(circle at 85% 0%, rgba(94,201,168,0.09), transparent 45%),
+    var(--bg);
+}
+.hero .eyebrow{
+  font-family:var(--mono);
+  color:var(--teal);
+  font-size:12.5px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+}
+.hero h1{
+  font-family:var(--display);
+  font-size:44px;
+  color:#fff;
+  margin:14px 0 16px;
+  line-height:1.15;
+  max-width:820px;
+}
+.hero p.lead{
+  font-size:16px;
+  color:var(--text-dim);
+  max-width:640px;
+  margin:0 0 28px;
+}
+.hero-chips{ display:flex; gap:10px; flex-wrap:wrap; }
+.chip{
+  font-family:var(--mono);
+  font-size:12px;
+  padding:5px 11px;
+  border-radius:100px;
+  border:1px solid var(--border);
+  color:var(--text-dim);
+  background:var(--panel);
+}
+
+section.block{
+  padding:52px 56px;
+  border-bottom:1px solid var(--border);
+  max-width:980px;
+}
+section.block h2{
+  font-family:var(--display);
+  font-size:26px;
+  color:#fff;
+  margin:0 0 6px;
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+}
+section.block h2 .num{
+  font-family:var(--mono);
+  font-size:14px;
+  color:var(--teal);
+  font-weight:400;
+}
+section.block .subtitle{
+  color:var(--text-dim);
+  font-size:14.5px;
+  margin:0 0 28px;
+}
+section.block h3{
+  font-family:var(--display);
+  font-size:16.5px;
+  color:var(--teal);
+  margin:28px 0 10px;
+  font-weight:600;
+}
+section.block p{ font-size:14.5px; color:var(--text); margin:0 0 12px;}
+section.block ul{ margin:0 0 16px; padding-left:20px; }
+section.block li{ font-size:14.5px; margin-bottom:8px; color:var(--text); }
+section.block li strong{ color:#fff; }
+
+.complexity{
+  display:inline-block;
+  font-family:var(--mono);
+  font-size:12px;
+  padding:2px 9px;
+  border-radius:5px;
+  margin-left:6px;
+}
+.complexity.good{ background:rgba(94,201,168,0.12); color:var(--teal); border:1px solid rgba(94,201,168,0.3);}
+.complexity.mid{ background:rgba(227,179,65,0.12); color:var(--amber); border:1px solid rgba(227,179,65,0.3);}
+.complexity.bad{ background:rgba(226,119,122,0.12); color:var(--rose); border:1px solid rgba(226,119,122,0.3);}
+
+.formula{
+  font-family:var(--mono);
+  background:var(--panel-alt);
+  border:1px solid var(--border);
+  border-left:3px solid var(--teal);
+  padding:12px 16px;
+  border-radius:6px;
+  font-size:13.5px;
+  color:var(--text);
+  margin:14px 0 18px;
+  overflow-x:auto;
+  white-space:pre;
+}
+
+pre{
+  background:var(--panel-alt) !important;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:16px 18px !important;
+  margin:14px 0 20px;
+  overflow-x:auto;
+  font-size:13px !important;
+}
+code{ font-family:var(--mono) !important; }
+
+.callout{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-left:3px solid var(--amber);
+  border-radius:6px;
+  padding:14px 16px;
+  margin:16px 0;
+  font-size:13.5px;
+  color:var(--text-dim);
+}
+.callout strong{ color:var(--amber); font-family:var(--mono); font-size:11.5px; letter-spacing:0.05em; display:block; margin-bottom:4px; text-transform:uppercase;}
+
+table.cmp{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13.5px;
+  margin:14px 0 20px;
+}
+table.cmp th, table.cmp td{
+  text-align:left;
+  padding:9px 12px;
+  border-bottom:1px solid var(--border);
+}
+table.cmp th{
+  font-family:var(--mono);
+  font-size:11.5px;
+  color:var(--text-dim);
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+}
+table.cmp td{ color:var(--text); }
+table.cmp code{ background:var(--panel-alt); padding:1px 6px; border-radius:4px; font-size:12px; }
+
+/* ---------- demo (signature element) ---------- */
+.demo-panel{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:24px;
+  margin-top:16px;
+}
+.demo-row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:18px;}
+.demo-row input[type=text]{
+  font-family:var(--mono);
+  background:var(--bg);
+  border:1px solid var(--border);
+  color:var(--text);
+  padding:9px 12px;
+  border-radius:6px;
+  font-size:13.5px;
+  width:260px;
+}
+.demo-row button{
+  font-family:var(--mono);
+  background:var(--teal);
+  color:#0b0e14;
+  border:none;
+  padding:9px 16px;
+  border-radius:6px;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+}
+.demo-row button.secondary{
+  background:transparent;
+  color:var(--text-dim);
+  border:1px solid var(--border);
+}
+.demo-row button:hover{ opacity:0.85; }
+.arr-track{ display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
+.cell{
+  width:46px; height:46px;
+  border:1px solid var(--border);
+  border-radius:6px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--mono);
+  font-size:14px;
+  background:var(--panel-alt);
+  position:relative;
+  transition:background .2s, border-color .2s, transform .2s;
+}
+.cell .lbl{
+  position:absolute; top:-18px; font-size:10px; color:var(--text-dim); font-family:var(--mono);
+}
+.cell.current{ border-color:var(--amber); background:rgba(227,179,65,0.12); transform:translateY(-3px); }
+.cell.compare{ border-color:var(--blue); }
+.cell.best{ border-color:var(--teal); background:rgba(94,201,168,0.15); }
+.demo-log{
+  font-family:var(--mono);
+  font-size:12.5px;
+  color:var(--text-dim);
+  min-height:20px;
+  border-top:1px solid var(--border);
+  padding-top:12px;
+  margin-top:6px;
+}
+.demo-log .result{ color:var(--teal); }
+
+footer{
+  padding:40px 56px 80px;
+  color:var(--text-dim);
+  font-size:12.5px;
+  font-family:var(--mono);
+}
+
+@media (max-width:860px){
+  .shell{ flex-direction:column; }
+  .sidebar{ width:100%; height:auto; position:relative; padding:16px 0; }
+  .hero{ padding:44px 24px 36px; }
+  .hero h1{ font-size:30px; }
+  section.block{ padding:36px 24px; }
+}
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  .cell{ transition:none; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="tag">// dp_notes.h</div>
+      <h1>Quy hoạch động</h1>
+    </div>
+    <nav class="toc" id="toc">
+      <a href="#overview"><span class="idx">00</span>Tổng quan</a>
+      <a href="#dp-1d"><span class="idx">01</span>DP trên dãy (1D)</a>
+      <a href="#dp-2d"><span class="idx">02</span>DP hai dãy (2D)</a>
+      <a href="#knapsack"><span class="idx">03</span>Cái túi</a>
+      <a href="#interval"><span class="idx">04</span>DP khoảng</a>
+      <a href="#tree"><span class="idx">05</span>DP trên cây</a>
+      <a href="#bitmask"><span class="idx">06</span>DP bitmask</a>
+      <a href="#optimization"><span class="idx">07</span>Tối ưu DP</a>
+      <a href="#digit"><span class="idx">08</span>Digit / Profile</a>
+      <a href="#debug"><span class="idx">09</span>Bẫy hay gặp</a>
+      <a href="#demo"><span class="idx">10</span>Demo LIS</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="hero">
+      <div class="eyebrow">competitive programming / lý thuyết thuật toán</div>
+      <h1>Bản đồ các dạng Quy hoạch động</h1>
+      <p class="lead">Tổng hợp lý thuyết, công thức truy hồi và độ phức tạp của các dạng DP thường gặp — từ dãy số cơ bản đến tối ưu bằng cấu trúc dữ liệu.</p>
+      <div class="hero-chips">
+        <span class="chip">8 dạng DP</span>
+        <span class="chip">công thức truy hồi</span>
+        <span class="chip">độ phức tạp</span>
+        <span class="chip">bẫy debug thường gặp</span>
+      </div>
+    </div>
+
+    <section class="block" id="overview">
+      <h2><span class="num">00</span>Tổng quan</h2>
+      <p class="subtitle">Bản chất của một bài toán DP</p>
+      <p>Một bài toán giải được bằng quy hoạch động khi có hai tính chất:</p>
+      <ul>
+        <li><strong>Cấu trúc con tối ưu (optimal substructure):</strong> lời giải tối ưu của bài toán lớn được xây từ lời giải tối ưu của các bài toán con.</li>
+        <li><strong>Chồng lấp bài toán con (overlapping subproblems):</strong> cùng một bài toán con được tính lại nhiều lần nếu giải đệ quy thuần túy — DP lưu lại (memo hóa) để tránh tính lại.</li>
+      </ul>
+      <h3>Hai cách cài đặt</h3>
+      <table class="cmp">
+        <tr><th>Kiểu</th><th>Cách làm</th><th>Ưu điểm</th><th>Nhược điểm</th></tr>
+        <tr><td><code>Top-down</code></td><td>Đệ quy + nhớ (memoization)</td><td>Dễ tư duy, chỉ tính state cần thiết</td><td>Overhead đệ quy, dễ tràn stack</td></tr>
+        <tr><td><code>Bottom-up</code></td><td>Vòng lặp điền bảng theo thứ tự</td><td>Nhanh hơn, kiểm soát bộ nhớ tốt (rolling array)</td><td>Phải xác định đúng thứ tự tính</td></tr>
+      </table>
+      <div class="callout">
+        <strong>Nguyên tắc thiết kế</strong>
+        Khi gặp bài mới: (1) định nghĩa trạng thái <code>dp[...]</code> biểu diễn điều gì, (2) tìm công thức chuyển trạng thái, (3) xác định trạng thái cơ sở (base case), (4) xác định thứ tự tính sao cho khi tính <code>dp[x]</code> thì các trạng thái nó phụ thuộc đã có giá trị.
+      </div>
+    </section>
+
+    <section class="block" id="dp-1d">
+      <h2><span class="num">01</span>DP trên dãy số <span class="complexity good">O(n) – O(n log n)</span></h2>
+      <p class="subtitle">Trạng thái phụ thuộc vị trí trong dãy</p>
+      <h3>Dãy con tăng dài nhất (LIS)</h3>
+      <div class="formula">dp[i] = 1 + max(dp[j])  với mọi j &lt; i thỏa a[j] &lt; a[i]</div>
+      <p>Cài đặt trực tiếp là O(n²). Tối ưu bằng <code>binary search</code> trên mảng "đuôi nhỏ nhất" hoặc segment tree theo giá trị (sau khi nén tọa độ) đưa về O(n log n) — dạng này bạn đã quen khi làm bài LIS có ràng buộc <code>|a[i]-a[j]| ≥ k</code>.</p>
+      <h3>Dãy con tổng lớn nhất (Kadane)</h3>
+      <div class="formula">dp[i] = max(a[i], dp[i-1] + a[i])</div>
+      <h3>Số cách đi / Fibonacci-like</h3>
+      <div class="formula">dp[i] = dp[i-1] + dp[i-2] + ...</div>
+      <p>Thường xuất hiện dưới dạng "số cách leo cầu thang", "số cách lát gạch 1×2", đếm theo modulo.</p>
+      <pre><code class="language-cpp">// LIS O(n log n)
+vector&lt;int&gt; tail;
+for (int i = 0; i &lt; n; i++) {
+    auto it = lower_bound(tail.begin(), tail.end(), a[i]);
+    if (it == tail.end()) tail.push_back(a[i]);
+    else *it = a[i];
+}
+cout &lt;&lt; tail.size();</code></pre>
+    </section>
+
+    <section class="block" id="dp-2d">
+      <h2><span class="num">02</span>DP trên hai dãy <span class="complexity mid">O(n·m)</span></h2>
+      <p class="subtitle">So khớp / biến đổi giữa hai chuỗi</p>
+      <h3>Dãy con chung dài nhất (LCS)</h3>
+      <div class="formula">dp[i][j] = dp[i-1][j-1] + 1        nếu a[i] == b[j]
+dp[i][j] = max(dp[i-1][j], dp[i][j-1])   ngược lại</div>
+      <h3>Khoảng cách chỉnh sửa (Edit Distance)</h3>
+      <div class="formula">dp[i][j] = dp[i-1][j-1]                       nếu a[i] == b[j]
+dp[i][j] = 1 + min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])   ngược lại (xóa/thêm/sửa)</div>
+      <div class="callout">
+        <strong>Tối ưu bộ nhớ</strong>
+        dp[i][j] chỉ phụ thuộc hàng i-1, nên có thể giảm từ O(n·m) xuống O(m) bộ nhớ bằng rolling array — hữu ích khi n, m lớn.
+      </div>
+    </section>
+
+    <section class="block" id="knapsack">
+      <h2><span class="num">03</span>Bài toán cái túi <span class="complexity mid">O(n·W)</span></h2>
+      <p class="subtitle">Chọn tập con tối ưu dưới ràng buộc trọng lượng</p>
+      <table class="cmp">
+        <tr><th>Biến thể</th><th>Đặc điểm</th><th>Cách duyệt</th></tr>
+        <tr><td>0/1 Knapsack</td><td>Mỗi vật chọn tối đa 1 lần</td><td>Duyệt <code>w</code> từ <code>W</code> về 0 (ngược)</td></tr>
+        <tr><td>Unbounded Knapsack</td><td>Vật dùng vô hạn lần</td><td>Duyệt <code>w</code> từ 0 lên <code>W</code> (xuôi)</td></tr>
+        <tr><td>Bounded Knapsack</td><td>Giới hạn số lần dùng mỗi vật</td><td>Chia nhị phân (binary grouping) hoặc monotonic deque</td></tr>
+      </table>
+      <div class="formula">dp[w] = max(dp[w], dp[w - weight[i]] + value[i])</div>
+      <pre><code class="language-cpp">// 0/1 Knapsack — duyệt ngược để không dùng lại vật vừa thêm
+for (int i = 0; i &lt; n; i++)
+    for (int w = W; w &gt;= weight[i]; w--)
+        dp[w] = max(dp[w], dp[w - weight[i]] + value[i]);</code></pre>
+      <div class="callout">
+        <strong>Lỗi hay gặp</strong>
+        Nhầm chiều duyệt giữa 0/1 và Unbounded là lỗi phổ biến nhất — 0/1 mà duyệt xuôi sẽ vô tình cho phép dùng lại vật nhiều lần.
+      </div>
+    </section>
+
+    <section class="block" id="interval">
+      <h2><span class="num">04</span>DP trên khoảng <span class="complexity bad">O(n³)</span></h2>
+      <p class="subtitle">Gộp các khoảng con lại thành khoảng lớn</p>
+      <div class="formula">dp[l][r] = min/max over k in (l, r) of:
+    dp[l][k] + dp[k+1][r] + cost(l, r)</div>
+      <ul>
+        <li><strong>Nhân chuỗi ma trận tối ưu</strong> (Matrix Chain Multiplication) — tìm thứ tự nhân tốn ít phép tính nhất.</li>
+        <li><strong>Ghép đa giác tối ưu</strong> (Optimal Polygon Triangulation).</li>
+        <li><strong>Gộp file / đốt bóng bay</strong> (Merge stones, Burst balloons) — thường có biến thể ràng buộc "chỉ gộp k đoạn liền kề".</li>
+      </ul>
+      <p>Duyệt theo độ dài khoảng tăng dần (từ khoảng ngắn đến khoảng dài) để đảm bảo <code>dp[l][k]</code> và <code>dp[k+1][r]</code> đã có giá trị khi tính <code>dp[l][r]</code>.</p>
+      <div class="callout">
+        <strong>Tối ưu</strong>
+        Nếu <code>cost(l,r)</code> thỏa bất đẳng thức tứ giác (quadrangle inequality), điểm chia tối ưu <code>k</code> đơn điệu theo <code>l, r</code> → dùng Knuth's Optimization để giảm còn O(n²).
+      </div>
+    </section>
+
+    <section class="block" id="tree">
+      <h2><span class="num">05</span>DP trên cây <span class="complexity good">O(n)</span></h2>
+      <p class="subtitle">Kết hợp kết quả từ con vào cha qua DFS</p>
+      <div class="formula">dp[u][0] = tổng max(dp[v][0], dp[v][1]) với v là con của u   (không chọn u)
+dp[u][1] = w[u] + tổng dp[v][0]                              (chọn u)</div>
+      <p>Đây là dạng bạn đã làm nhiều — bài toán "director/party" (independent set trọng số trên cây) là ví dụ kinh điển.</p>
+      <ul>
+        <li><strong>Chọn gốc cẩn thận:</strong> hardcode node 1 làm gốc chỉ đúng khi cây thực sự được cho theo cấu trúc đó — nếu đề cho "node đặc biệt" là gốc thay đổi theo test, phải build lại theo <code>has_parent[]</code>.</li>
+        <li><strong>Đệ quy sâu:</strong> với n lớn, DFS đệ quy có thể tràn stack — chuyển sang DFS lặp (iterative) bằng stack thủ công.</li>
+        <li><strong>Small-to-large merging:</strong> khi cần gộp tập hợp/cấu trúc dữ liệu từ các subtree con một cách hiệu quả, tránh O(n²).</li>
+      </ul>
+    </section>
+
+    <section class="block" id="bitmask">
+      <h2><span class="num">06</span>DP bitmask <span class="complexity bad">O(2ⁿ·n)</span></h2>
+      <p class="subtitle">Dùng khi n nhỏ, thường n ≤ 20–22</p>
+      <div class="formula">dp[mask][i] = chi phí nhỏ nhất khi đã thăm tập "mask", đang đứng tại đỉnh i</div>
+      <ul>
+        <li><strong>Bài toán người du lịch (TSP):</strong> <code>dp[mask][i] = min(dp[mask ^ (1&lt;&lt;i)][j] + dist[j][i])</code>.</li>
+        <li><strong>Ghép cặp tối ưu</strong> (Assignment Problem / Bitmask matching).</li>
+        <li>Liên quan tới các bài permutation / Lehmer code — bitmask cũng hay dùng để đánh dấu tập số đã sử dụng.</li>
+      </ul>
+      <div class="callout">
+        <strong>Bộ nhớ</strong>
+        <code>dp[1&lt;&lt;20][20]</code> kiểu <code>long long</code> đã ~160MB — cân nhắc kiểu dữ liệu nhỏ hơn (<code>int</code>) hoặc giảm chiều nếu MLE.
+      </div>
+    </section>
+
+    <section class="block" id="optimization">
+      <h2><span class="num">07</span>Tối ưu DP bằng cấu trúc dữ liệu</h2>
+      <p class="subtitle">Giảm độ phức tạp chuyển trạng thái</p>
+      <table class="cmp">
+        <tr><th>Kỹ thuật</th><th>Áp dụng khi</th><th>Hiệu quả</th></tr>
+        <tr><td>Convex Hull Trick / Li Chao Tree</td><td><code>dp[i] = min_j(dp[j] + b[j]·a[i] + c[j])</code> — dạng đường thẳng</td><td>O(nk) → O(n log n)</td></tr>
+        <tr><td>Divide & Conquer Optimization</td><td>Điểm chuyển tối ưu đơn điệu theo i</td><td>O(n²k) → O(nk log n)</td></tr>
+        <tr><td>Knuth's Optimization</td><td>Interval DP với quadrangle inequality</td><td>O(n³) → O(n²)</td></tr>
+        <tr><td>Segment tree / BIT trên giá trị</td><td>Truy vấn max/min theo khoảng giá trị đã nén</td><td>O(n²) → O(n log n)</td></tr>
+      </table>
+      <p>Đây chính là nhóm kỹ thuật bạn hay dùng khi tối ưu LIS có ràng buộc khoảng cách giá trị — bản chất là thay việc duyệt tuyến tính tìm max/min bằng truy vấn cấu trúc dữ liệu.</p>
+    </section>
+
+    <section class="block" id="digit">
+      <h2><span class="num">08</span>Digit DP & Profile DP</h2>
+      <p class="subtitle">Trạng thái mở rộng theo chữ số hoặc theo lưới 2D</p>
+      <h3>Digit DP</h3>
+      <p>Đếm số nguyên trong <code>[l, r]</code> thỏa tính chất nào đó. Trạng thái thường gồm: vị trí chữ số đang xét, có đang bị "chặn" bởi giới hạn trên hay không (<em>tight</em>), và các điều kiện phụ (ví dụ tổng chữ số, chữ số trước đó).</p>
+      <h3>Profile DP (Broken Profile)</h3>
+      <p>Dùng cho bài toán lát gạch trên lưới 2D. Trạng thái là "đường viền" (profile) giữa phần lưới đã xử lý và chưa xử lý, biểu diễn bằng bitmask theo chiều rộng lưới.</p>
+    </section>
+
+    <section class="block" id="debug">
+      <h2><span class="num">09</span>Bẫy hay gặp khi cài DP</h2>
+      <p class="subtitle">Tổng hợp từ các lỗi thường thấy khi debug</p>
+      <ul>
+        <li><strong>INT_MIN/INT_MAX với <code>#define int long long</code>:</strong> hai hằng số này vẫn là phạm vi <code>int</code> 32-bit, cộng thêm dễ tràn số. Dùng <code>LLONG_MIN/2</code>, <code>LLONG_MAX/2</code> làm sentinel an toàn hơn.</li>
+        <li><strong>Không reset mảng/biến toàn cục giữa các test case:</strong> mảng <code>used[]</code>, biến <code>last_ans</code>, hay <code>in_a_b</code> — chỉ reset đúng phần <code>n</code> phần tử đã dùng, không phải toàn bộ <code>MAXn</code> (tránh vừa chậm vừa dễ quên).</li>
+        <li><strong>Off-by-one ở sentinel:</strong> đặc biệt trong segment tree — khởi tạo sai biên có thể ghi đè ra ngoài mảng, làm hỏng biến toàn cục kế bên.</li>
+        <li><strong>Sai chiều duyệt trong knapsack</strong> (xem mục 03).</li>
+        <li><strong>Hardcode gốc cây là node 1</strong> khi đề bài cho gốc thay đổi theo test.</li>
+        <li><strong>Thứ tự tính trạng thái sai</strong> trong DP khoảng/DP có phụ thuộc phức tạp — luôn đảm bảo trạng thái con được tính trước trạng thái cha.</li>
+      </ul>
+    </section>
+
+    <section class="block" id="demo">
+      <h2><span class="num">10</span>Demo trực quan: LIS từng bước</h2>
+      <p class="subtitle">Nhập dãy số, chạy từng bước để xem dp[i] được tính như thế nào (O(n²))</p>
+      <div class="demo-panel">
+        <div class="demo-row">
+          <input type="text" id="arrInput" value="3,1,4,1,5,9,2,6" />
+          <button id="btnLoad">Nạp dãy</button>
+          <button id="btnStep">Bước tiếp →</button>
+          <button class="secondary" id="btnReset">Reset</button>
+        </div>
+        <div class="arr-track" id="arrTrack"></div>
+        <div class="demo-log" id="demoLog">Nhập dãy số (cách nhau bởi dấu phẩy) rồi bấm "Nạp dãy".</div>
+      </div>
+    </section>
+
+    <footer>// hết — chúc code sạch bug, dp[] không tràn mảng.</footer>
+  </main>
+</div>
+
+<script>
+hljs.highlightAll();
+
+// scroll spy
+const links = document.querySelectorAll('#toc a');
+const sections = [...links].map(l => document.querySelector(l.getAttribute('href')));
+window.addEventListener('scroll', () => {
+  let idx = 0;
+  sections.forEach((s, i) => { if (s && s.getBoundingClientRect().top < 140) idx = i; });
+  links.forEach(l => l.classList.remove('active'));
+  links[idx].classList.add('active');
+});
+
+// LIS step demo
+let arr = [];
+let dp = [];
+let i = 0, j = 0;
+let best = [];
+
+const track = document.getElementById('arrTrack');
+const log = document.getElementById('demoLog');
+
+function render() {
+  track.innerHTML = '';
+  arr.forEach((v, idx) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    if (idx === i) cell.classList.add('current');
+    else if (idx === j) cell.classList.add('compare');
+    if (best.includes(idx)) cell.classList.add('best');
+    cell.innerHTML = `<span class="lbl">${dp[idx] !== undefined ? 'dp='+dp[idx] : ''}</span>${v}`;
+    track.appendChild(cell);
+  });
+}
+
+document.getElementById('btnLoad').addEventListener('click', () => {
+  const raw = document.getElementById('arrInput').value;
+  arr = raw.split(',').map(s => parseInt(s.trim())).filter(n => !isNaN(n));
+  dp = new Array(arr.length).fill(undefined);
+  i = 0; j = -1; best = [];
+  if (arr.length) { dp[0] = 1; }
+  log.textContent = arr.length ? `Đã nạp ${arr.length} phần tử. dp[0] = 1 (base case). Bấm "Bước tiếp" để tiếp tục.` : 'Dãy không hợp lệ.';
+  render();
+});
+
+document.getElementById('btnReset').addEventListener('click', () => {
+  arr = []; dp = []; i = 0; j = -1; best = [];
+  track.innerHTML = '';
+  log.textContent = 'Đã reset. Nhập dãy số rồi bấm "Nạp dãy".';
+});
+
+document.getElementById('btnStep').addEventListener('click', () => {
+  if (!arr.length) { log.textContent = 'Hãy nạp dãy trước.'; return; }
+  if (i >= arr.length) {
+    const maxLen = Math.max(...dp);
+    let end = dp.lastIndexOf(maxLen);
+    best = [end];
+    let curLen = maxLen;
+    for (let k = end - 1; k >= 0; k--) {
+      if (arr[k] < arr[end] && dp[k] === curLen - 1) { best.push(k); end = k; curLen--; }
+    }
+    log.innerHTML = `<span class="result">Hoàn tất. Độ dài LIS = ${maxLen}.</span> Các ô màu xanh teal là một LIS khả dĩ.`;
+    render();
+    return;
+  }
+  j++;
+  if (j >= i) {
+    // move to next i
+    i++; j = -1;
+    if (i < arr.length && dp[i] === undefined) dp[i] = 1;
+    render();
+    log.textContent = i < arr.length ? `Chuyển sang xét i = ${i} (a[${i}] = ${arr[i]}), base dp[${i}] = 1.` : 'Đã xét hết. Bấm "Bước tiếp" lần nữa để xem kết quả.';
+    return;
+  }
+  if (arr[j] < arr[i] && dp[j] + 1 > dp[i]) {
+    dp[i] = dp[j] + 1;
+    log.textContent = `So a[${j}]=${arr[j]} < a[${i}]=${arr[i]} → cập nhật dp[${i}] = dp[${j}] + 1 = ${dp[i]}.`;
+  } else {
+    log.textContent = `So a[${j}]=${arr[j]} với a[${i}]=${arr[i]} → không cập nhật (điều kiện không thỏa hoặc không tốt hơn).`;
+  }
+  render();
+});
+
+// initial load
+document.getElementById('btnLoad').click();
+</script>
+</body>
+</html>

@@ -1,0 +1,2 @@
+- dp lis và biến thể là dp[i] = max/min(dp[i], dp[j] + cost) j từ 1 đến i - 1 hoặc trong khoảng khác tương tự
+- độ phức tạp O(n^2)

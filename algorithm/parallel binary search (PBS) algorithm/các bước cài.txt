@@ -1,0 +1,6 @@
+-b1: Khởi tạo khoảng tìm kiếm cho mọi truy vấn. Với mỗi truy vấn i, ta đặt L[i] = 1, R[i] = MAX_TIME (theo đề bài). Tạo một quêu hoặc vector để gom các truy vấn có i từ 1 >= MAX_TIME là mid
+-b2: Vòng lặp PBS
+	(+) : Gom nhóm theo các MID, nếu truy vấn i chưa tìm đc dáp án từc(L[i] < R[i]) thì tình mid = (L[i] + R[i]) / 2. Xếp truy vấn i vào một danh sách chờ tại thời điểm mid
+	(+) : Chạy quá trình thay đổi trạng thái của bài toán từ bước 1 đến bước MAX_TIME. Bạn thường dùng các cấu trúc dữ liệu như Fenwick Tree (BIT) hoặc Segment Tree ở bước này.
+	(+) : Kiểm tra điều kiện, Khi quá trình mô phỏng chạm đến thời điểm t = mid, bạn lấy tất cả các truy vấn đang "đợi" ở thời điểm mid ra. Kiểm tra xem điều kiện của truy vấn $i$ đã thỏa mãn chưa (dựa trên trạng thái cấu trúc dữ liệu hiện tại). Lúc này L[i] và R[i] biến đổi như tìm kiếm nhị phân bình thường
+	(+) : Xóa dữ liệu (Clear state), Trả cấu trúc dữ liệu (BIT/Segment Tree) về trạng thái rỗng ban đầu để chuẩn bị cho vòng lặp log tiếp theo.

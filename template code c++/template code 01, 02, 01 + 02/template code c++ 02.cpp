@@ -9,15 +9,15 @@
 // #pragma GCC target("sse4.1,sse4.2")
 // #pragma GCC target("bmi,bmi2")
 // #pragma GCC target("popcnt,lzcnt")
-// #pragma GCC optimize("inline")
 // #pragma GCC optimize("fast-math")
 // #pragma GCC optimize("Ofast")
+// #pragma GCC target("avx,avx2")
 
 // #define anhnguyet_huukhanh
 #ifdef anhnguyet_huukhanh
     #pragma GCC optimize("O3")
     #pragma GCC optimize("unroll-loops")
-    #pragma GCC target("avx,avx2")
+    #pragma GCC optimize("inline")
 #endif
 
 #include <bits/stdc++.h>
@@ -85,11 +85,11 @@ typedef short sh;
 typedef bool bl;
 typedef __int128 int128;
 
-void input() noexcept(true) {
+inline void input() noexcept(true) {
 
     TIMEi;
 }
-void output() noexcept(true) {
+inline void output() noexcept(true) {
 
     TIMEo;
 }

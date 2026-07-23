@@ -1,0 +1,10 @@
+memset(): 
+với int 0x3f3f3f3f hoặc 0x3f: <=> INT_MAX
+với long long 0x3f <=> 4.6 c 1e18
+với giá trị 0 memmset(a, 0, sizeof a)
+với giá trị -1 memset(a, -1, sizeof a) hoặc memset(a, 0xff, sizeof a)
+với 0x7f có thể gây tràn khi cộng
+
+
+constexpr int int_0x3f = 1061109567;
+constexpr long long ll_0x3f = 4557430888798830399LL;

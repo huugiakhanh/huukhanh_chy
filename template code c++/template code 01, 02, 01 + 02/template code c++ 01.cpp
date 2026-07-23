@@ -9,15 +9,15 @@
 // #pragma GCC target("sse4.1,sse4.2")
 // #pragma GCC target("bmi,bmi2")
 // #pragma GCC target("popcnt,lzcnt")
-// #pragma GCC optimize("inline")
 // #pragma GCC optimize("fast-math")
 // #pragma GCC optimize("Ofast")
+// #pragma GCC target("avx,avx2")
 
 // #define anhnguyet_huukhanh
 #ifdef anhnguyet_huukhanh
     #pragma GCC optimize("O3")
     #pragma GCC optimize("unroll-loops")
-    #pragma GCC target("avx,avx2")
+    #pragma GCC optimize("inline")
 #endif
 
 #include <bits/stdc++.h>
@@ -66,9 +66,9 @@ inline long long pow_(long long a, long long b) noexcept(true) { long long res =
 inline long long fac_(long long num) noexcept(true) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res *= i; return res; }
 inline long long pow_mod (long long a, long long b, long long mod) noexcept(true) { long long res = 1; a = a % mod; while (b > 0) { if (b & 1) { res = (res * a) % mod; } a = (a * a) % mod; b >>= 1; } return res; }
 inline long long fac_mod (long long num, long long mod) noexcept(true) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res = (res * i) % mod; return res; }
+inline long long inv_(long long num, long long mod) noexcept(true) { return pow_mod(num, mod - 2, mod); }
 inline long long ceil_safe(long long num) noexcept(true) { if (num <= 0) { return 0; } long long num_sqrt = (long long)sqrt((double)(num - 1)); while (num_sqrt * num_sqrt > num - 1) { num_sqrt--; } while ((num_sqrt + 1) * (num_sqrt + 1) <= num - 1) { num_sqrt++; } num_sqrt++; return num_sqrt; }
 inline long long floor_safe(long long num) noexcept(true) { if (num <= 0) { return 0; } long long num_sqrt = (long long)sqrt((double)num); while (num_sqrt * num_sqrt > num) { num_sqrt--; } while ((num_sqrt + 1) * (num_sqrt + 1) <= num) { num_sqrt++; } return num_sqrt; }
-
 
 typedef short sh;
 typedef char cr;
@@ -83,15 +83,17 @@ constexpr long long MOD1 = 1000000007LL;
 constexpr long long MOD2 = 1000000009LL;
 constexpr long long MOD3 = 2147483647LL;
 constexpr long long INF = 1000000000000000000LL;
+constexpr int int_0x3f = 1061109567;
+constexpr long long ll_0x3f = 4557430888798830399LL;
 constexpr int base1= 310;
 constexpr int base2 = 256;
 constexpr long long MAXn = 100007;
 
-void input() noexcept(true) {
+inline void input() noexcept(true) {
 
     TIME;
 }
-void output() noexcept(true) {
+inline void output() noexcept(true) {
 
     TIME;
 }

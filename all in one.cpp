@@ -9,16 +9,17 @@
 // #pragma GCC target("sse4.1,sse4.2")
 // #pragma GCC target("bmi,bmi2")
 // #pragma GCC target("popcnt,lzcnt")
-// #pragma GCC optimize("inline")
 // #pragma GCC optimize("fast-math")
 // #pragma GCC optimize("Ofast")
+// #pragma GCC target("avx,avx2")
 
 // #define anhnguyet_huukhanh
 #ifdef anhnguyet_huukhanh
     #pragma GCC optimize("O3")
     #pragma GCC optimize("unroll-loops")
-    #pragma GCC target("avx,avx2")
+    #pragma GCC optimize("inline")
 #endif
+
 #include <bits/stdc++.h>
 #include <ext/pb_ds/tree_policy.hpp>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -76,12 +77,13 @@ inline void print128(__int128 x) noexcept(true) { if (x < 0) { putchar('-'); x =
 inline bool cmp128(__int128 x, __int128 y) { return x > y; }
 // của int128
 
-
 inline void fastIO() noexcept(true) { std::ios::sync_with_stdio(false); std::cin.tie(nullptr); std::cout.tie(nullptr); }
 inline void input_file(const std::string& TASK) noexcept(true) { std::string file = TASK + ".INP"; if (FILE* f = fopen(file.c_str(), "r")) { freopen(file.c_str(), "r", stdin); fclose(f); } }
 inline void output_file(const std::string& TASK) noexcept(true) { std::string file = TASK + ".OUT"; if (fopen(file.c_str(), "w")) { freopen(file.c_str(), "w", stdout); } }
 
 std::mt19937 rd(std::chrono::steady_clock::now().time_since_epoch().count());
+
+long long fac[23], fac_mod_[1000007], inv_fac[1000007], inv[1000007];
 
 inline long long RAND(long long l, long long h) noexcept(true) { return std::uniform_int_distribution<long long>(l, h)(rd); }
 inline long long gcd_(long long a, long long b) noexcept(true) { while (a != 0) { long long uc = a; a = b % a ; b = uc; } return b; }
@@ -90,6 +92,10 @@ inline long long pow_(long long a, long long b) noexcept(true) { long long res =
 inline long long fac_(long long num) noexcept(true) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res *= i; return res; }
 inline long long pow_mod (long long a, long long b, long long mod) noexcept(true) { long long res = 1; a = a % mod; while (b > 0) { if (b & 1) { res = (res * a) % mod; } a = (a * a) % mod; b >>= 1; } return res; }
 inline long long fac_mod (long long num, long long mod) noexcept(true) { unsigned long long res = 1; for (unsigned long long i = 2; i <= num; ++i) res = (res * i) % mod; return res; }
+inline long long inv_(long long num, long long mod) noexcept(true) { return pow_mod(num, mod - 2, mod); }
+inline void cal_fac_mod_inv_fac(long long num, long long mod) { fac_mod_[0] = fac_mod_[1] = 1; for (long long i = 2; i <= num; i++) { fac_mod_[i] = fac_mod_[i - 1] * i % mod; } inv_fac[num] = inv_(fac_mod_[num], mod); for (long long i = num; i >= 1; i--) { inv_fac[i - 1] = inv_fac[i] * i % mod; } }
+inline void cal_inv_2_1_num(long long num, long long mod) { inv[1] = 1; for (int i = 2; i <= num; i++) { inv[i] = (mod - (mod / i) * inv[mod % i] % mod) % mod; } }
+inline long long nCk(long long n, long long k, long long mod) { if (k < 0 || k > n) return 0; return fac[n] * inv_fac[k] % mod * inv_fac[n - k] % mod; }
 inline long long ceil_safe(long long num) noexcept(true) { if (num <= 0) { return 0; } long long num_sqrt = (long long)sqrt((double)(num - 1)); while (num_sqrt * num_sqrt > num - 1) { num_sqrt--; } while ((num_sqrt + 1) * (num_sqrt + 1) <= num - 1) { num_sqrt++; } num_sqrt++; return num_sqrt; }
 inline long long floor_safe(long long num) noexcept(true) { if (num <= 0) { return 0; } long long num_sqrt = (long long)sqrt((double)num); while (num_sqrt * num_sqrt > num) { num_sqrt--; } while ((num_sqrt + 1) * (num_sqrt + 1) <= num) { num_sqrt++; } return num_sqrt; }
 
@@ -147,23 +153,25 @@ constexpr long long MOD1 = 1000000007LL;
 constexpr long long MOD2 = 1000000009LL;
 constexpr long long MOD3 = 2147483647LL;
 constexpr long long INF = 1000000000000000000LL;
+constexpr int int_0x3f = 1061109567;
+constexpr long long ll_0x3f = 4557430888798830399LL;
 constexpr int base1= 310;
 constexpr int base2 = 256;
 constexpr long long MAXn = 1000007;
 const string name = "name";
 
-void input() noexcept(true) {
+inline void input() noexcept(true) {
 
     TIMEi;
 }
-void output() noexcept(true) {
+inline void output() noexcept(true) {
 
     TIMEo;
 }
 
-void type01() noexcept(true) { input(), output(); }
-// void type02_1() noexcept(true) { check_test::(name, n_test_nr); }
-// void type02_2() noexcept(true) { create_test("name", n_test_nr); }
+inline void type01() noexcept(true) { input(), output(); }
+// inline void type02_1() noexcept(true) { check_test::(name, n_test_nr); }
+// inline void type02_2() noexcept(true) { create_test("name", n_test_nr); }
 int main() {
     fastIO();
     // type02();

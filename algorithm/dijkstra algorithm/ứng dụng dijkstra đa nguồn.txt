@@ -1,0 +1,8 @@
+- Multi-source Dijkstra là sự nâng cấp của Multi-source BFS. Nếu BFS đa nguồn dùng cho đồ thị không trọng số (cạnh bằng 1), thì Multi Dijkstra sinh ra để giải quyết đồ thị có trọng số dương
+
+- Các bài thường ứng dụng: Khoảng cách đến cơ sở gần nhất, từ N điểm về k điểm, khoảng cách từ mỗi đỉnh từ 1 đến n đến các đỉnh trong k đỉnh gần nhất với nó. nếu dijkstra thường là O(k * (v + e) * log v) thì multi dijkstra chỉ mất O((v + e) log v).
+
+- Quái vật đuổi bắt / Cháy rừng: Bạn ở đỉnh A, có đàn quái vật ở các đỉnh $_1, M_2, .... Quái vật và bạn cùng di chuyển trên đồ thị có trọng số. Bạn cần tính xem quái vật nào đến một đỉnh X nhanh nhất để xem bạn có kịp trốn thoát không.
+
+- Trạm tiếp nhiên liệu: Tìm đường đi từ điểm S đến T, nhưng xe có bình xăng giới hạn, trên đường có một số đỉnh là trạm đổ xăng. Ta dùng Multi-Dijkstra với tập nguồn là các trạm xăng để tính khoảng cách từ mọi đỉnh tới trạm xăng gần nhất.
+

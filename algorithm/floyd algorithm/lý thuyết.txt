@@ -1,0 +1,36 @@
+- floyd hay floyd-warshall là thuật toán hoạt động theo ý tưởng: Nếu tôi cho phép đi vòng qua một đỉnh trung gian k, liệu quãng đường từ $i$ đến $j$ có ngắn hơn con đường trực tiếp (hoặc con đường cũ) hiện tại không?
+- Thuật toán duy trì một ma trận 2 chiều d[i][j] lưu khoảng cách ngắn nhất từ đỉnh i đến đỉnh j
+- trong đó: d[i][j] là trọng số cạnh nối trực tiếp từ i đến j. Nếu không có cạnh nối, khoảng cách là vô cực. Khoảng cách từ một đỉnh đến chính nó d[i][i] = 0 (tuy biến thế có thể khác nhau)
+- Chuyển trạng thái (Relaxation): 
+Ta sẽ xét lần lượt các đỉnh từ 1 đến N đóng vai trò là đỉnh trung gian k. Tại mỗi bước k, ta kiểm tra mọi cặp đỉnh (i, j): d(i, j) = min(d(i, j), d(i, k) + d(k, j))
+- độ phức tạp O(n ^ 3) <=> chạy với số đỉnh không quá: 400 - 500 với <= 1s còn với 700 - 1000 với <= 2 - 3s
+
+
+(*) Một số biến thể như:
+- Biến thể 1: Bao đóng đồ thị (Transitive Closure - Thuật toán Warshall): Có đường đi từ i đến j hay không?
+Khởi tạo: d[i][j] = 1 nếu có cạnh nối, ngược lại bằng 0.
+Công thức: d[i][j] = d[i][j] | (d[i][k] & d[k][j])
+Mẹo C++: Có thể dùng bitset để tối ưu phép toán bit, giảm độ phức tạp thực tế xuống O(N^3 / 64).
+
+- Biến thể 2: Phát hiện chu trình âm (Negative Cycle): Đồ thị có chu trình âm khi tổng trọng số của một vòng lặp nhỏ hơn 0.\
+Cách làm: Chạy Floyd bình thường. Sau khi chạy xong, duyệt vòng lặp FOR(i, 1, n). Nếu tồn tại bất kỳ d[i][i] < 0, đồ thị đó chứa chu trình âm (vì khoảng cách từ một đỉnh về chính nó bị giảm xuống dưới 0).
+
+- Biến thể 3: Đường đi Minimax (Chai cổ lọ - Bottleneck): Bài toán: Tìm đường đi từ $i$ đến $j$ sao cho cạnh lớn nhất trên đường đi đó là nhỏ nhất có thể (ví dụ: tìm đường đi cho xe tải sao cho giới hạn chiều cao của các cây cầu trên đường là cao nhất).
+Công thức: d[i][j] = min(d[i][j], max(d[i][k], d[k][j]))
+Khởi tạo: d[i][j] bằng trọng số cạnh (i, j).
+
+- Biến thể 4: Truy vết đường đi (Path Reconstruction)
+Cách làm: Dùng thêm ma trận trace[i][j] lưu đỉnh trung gian. Khi d[i][k] + d[k][j] < d[i][j], ta cập nhật trace[i][j] = trace[i][k].
+
+- Biến thể 5: Đếm số lượng đường đi ngắn nhất giữa các cặp đỉnh(Count the number of shortest paths)
+Cách làm: Mảng d[i][j]: Lưu độ dài đường đi ngắn nhất như bình thường và mảng cnt[i][j]: Lưu số lượng đường đi ngắn nhất có độ dài bằng d[i][j].
+Công thức:
+if (d[i][k] != INF && d[k][j] != INF) {
+	if (d[i][k] + d[k][j] < d[i][j]) {
+		d[i][j] = d[i][k] + d[k][j];
+                cnt[i][j] = (cnt[i][k] * cnt[k][j]) % MOD;
+        } else if (d[i][k] + d[k][j] == d[i][j])
+                long long new_ways = (cnt[i][k] * cnt[k][j]) % MOD;
+                cnt[i][j] = (cnt[i][j] + new_ways) % MOD;
+        }
+}

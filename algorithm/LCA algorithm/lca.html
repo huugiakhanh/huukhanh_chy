@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>LCA — Lowest Common Ancestor</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#12181f;
+    --line:#22303c;
+    --ink:#dbe4ea;
+    --dim:#7d8b96;
+    --amber:#ffb454;
+    --green:#7ee787;
+    --cyan:#56d4dd;
+    --red:#ff7b72;
+    --mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+    --serif: 'Georgia', 'Iowan Old Style', serif;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family: var(--mono);
+    line-height:1.55;
+  }
+  .wrap{max-width:980px; margin:0 auto; padding:48px 24px 100px;}
+  h1{
+    font-family:var(--serif); font-weight:700; font-size:2.6rem; margin:0 0 6px;
+    letter-spacing:-0.5px;
+  }
+  h1 span{ color:var(--amber); }
+  .subtitle{ color:var(--dim); font-size:0.98rem; margin-bottom:40px; max-width:620px;}
+  h2{
+    font-family:var(--serif); font-size:1.35rem; color:var(--amber);
+    border-top:1px solid var(--line); padding-top:28px; margin-top:56px;
+  }
+  .eyebrow{ color:var(--dim); font-size:0.78rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:4px;}
+  p{ color:#c3cdd6; font-size:0.95rem; }
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:10px;
+    padding:20px; margin:20px 0;
+  }
+  svg{ width:100%; height:auto; display:block; }
+  .node circle{
+    fill:#1a2129; stroke:#3a4753; stroke-width:1.6; cursor:pointer;
+    transition:fill .25s, stroke .25s, r .2s;
+  }
+  .node text{
+    fill:var(--ink); font-family:var(--mono); font-size:12px; text-anchor:middle;
+    pointer-events:none; font-weight:600;
+  }
+  .node:hover circle{ stroke:var(--cyan); }
+  .node.u circle{ fill:#1e3a2e; stroke:var(--green); }
+  .node.v circle{ fill:#3a2412; stroke:var(--amber); }
+  .node.lca circle{ fill:#3a1414; stroke:var(--red); stroke-width:2.4; }
+  .node.lca circle.pulse{ animation:pulse 1.1s ease-out; }
+  @keyframes pulse{
+    0%{ r:26; opacity:0.5;}
+    100%{ r:10; opacity:0;}
+  }
+  .edge{ stroke:#2a3743; stroke-width:1.6; }
+  .edge.path{ stroke:var(--amber); stroke-width:3; }
+  .edge.pathv{ stroke:var(--cyan); stroke-width:3; }
+  .controls{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:14px 0;}
+  button{
+    background:#1a2129; color:var(--ink); border:1px solid var(--line);
+    padding:8px 14px; border-radius:6px; font-family:var(--mono); font-size:0.82rem;
+    cursor:pointer;
+  }
+  button:hover{ border-color:var(--cyan); color:var(--cyan); }
+  button:active{ transform:translateY(1px); }
+  .hint{ color:var(--dim); font-size:0.82rem;}
+  .log{
+    background:#0a0e13; border:1px solid var(--line); border-radius:8px;
+    padding:14px 16px; font-size:0.83rem; color:#a9b6bf; max-height:220px; overflow-y:auto;
+  }
+  .log div{ padding:3px 0; border-bottom:1px dashed #1c252d; }
+  .log div:last-child{ border-bottom:none; }
+  .log .tag{ color:var(--cyan); }
+  .result{
+    font-size:1rem; margin-top:10px; padding:12px 16px; border-radius:8px;
+    background:#1a1210; border:1px solid #3a2418; color:var(--amber); display:none;
+  }
+  .result.show{ display:block; }
+  pre{
+    background:#0a0e13; border:1px solid var(--line); border-radius:8px;
+    padding:16px 18px; overflow-x:auto; font-size:0.82rem; color:#c3d3da;
+  }
+  .kw{ color:#c792ea;} .tp{ color:#82aaff;} .fn{ color:#82e0dd;} .cm{ color:#546374;} .nb{color:#f78c6c;}
+  table{ width:100%; border-collapse:collapse; font-size:0.82rem; margin-top:8px;}
+  th,td{ border:1px solid var(--line); padding:6px 10px; text-align:center; }
+  th{ color:var(--amber); background:#161d24; font-weight:600;}
+  td.hi{ color:var(--green); font-weight:700; background:#122018; }
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  @media(max-width:720px){ .grid2{ grid-template-columns:1fr; } h1{font-size:2rem;} }
+  .badge{
+    display:inline-block; font-size:0.72rem; padding:2px 8px; border-radius:20px;
+    border:1px solid var(--line); color:var(--dim); margin-left:8px;
+  }
+  .legend{ display:flex; gap:18px; flex-wrap:wrap; font-size:0.8rem; color:var(--dim); margin-top:10px;}
+  .legend span{ display:inline-flex; align-items:center; gap:6px;}
+  .dot{ width:10px; height:10px; border-radius:50%; display:inline-block; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Cây · Đồ thị · O(log n) truy vấn</div>
+  <h1>Lowest Common <span>Ancestor</span></h1>
+  <p class="subtitle">Tổ tiên chung gần nhất của hai đỉnh trong cây — trực quan hoá cách leo lên gốc, và cách binary lifting biến việc leo từng bước thành các bước nhảy log(n).</p>
+
+  <h2>1. LCA là gì?</h2>
+  <p>Cho một cây gốc (rooted tree) và hai đỉnh <b>u</b>, <b>v</b>, LCA(u, v) là đỉnh sâu nhất (xa gốc nhất) mà vừa là tổ tiên của u, vừa là tổ tiên của v. Nhấp vào hai đỉnh bên dưới để xem đường đi lên gốc của từng đỉnh và điểm giao nhau của chúng.</p>
+
+  <div class="card">
+    <div class="controls">
+      <button id="resetBtn">↺ Chọn lại</button>
+      <span class="hint">Nhấp đỉnh thứ nhất → chọn <b style="color:var(--green)">u</b>. Nhấp đỉnh thứ hai → chọn <b style="color:var(--amber)">v</b>.</span>
+    </div>
+    <svg id="tree" viewBox="0 0 900 480"></svg>
+    <div class="legend">
+      <span><span class="dot" style="background:var(--green)"></span> u</span>
+      <span><span class="dot" style="background:var(--amber)"></span> v</span>
+      <span><span class="dot" style="background:var(--red)"></span> LCA(u, v)</span>
+      <span><span class="dot" style="background:#3a4753"></span> chưa chọn</span>
+    </div>
+    <div class="result" id="result"></div>
+  </div>
+
+  <h2>2. Cách tìm — leo dần (naive)</h2>
+  <p>Cách đơn giản nhất: tính độ sâu <code>depth[]</code> của mọi đỉnh bằng DFS/BFS từ gốc. Để tìm LCA(u, v):</p>
+  <div class="card">
+    <ol style="color:#c3cdd6; font-size:0.92rem; padding-left:20px;">
+      <li>Đưa đỉnh sâu hơn lên bằng độ sâu với đỉnh còn lại (leo <code>|depth[u]-depth[v]|</code> bước theo <code>parent[]</code>).</li>
+      <li>Sau đó leo <b>đồng thời</b> cả u và v lên từng bước một, cho tới khi <code>u == v</code>.</li>
+      <li>Đỉnh trùng nhau đó chính là LCA.</li>
+    </ol>
+    <p style="margin-top:0;">Mỗi truy vấn tốn <b>O(depth)</b> — trong trường hợp cây bị suy biến thành một chuỗi dài (như nhánh 12→15→16→17→18 bên trên), độ sâu có thể lên tới O(n), rất chậm nếu phải trả lời nhiều truy vấn.</p>
+  </div>
+
+  <h2>3. Binary lifting — nhảy log(n) thay vì leo từng bước</h2>
+  <p>Ý tưởng: thay vì chỉ lưu <code>parent[v]</code> (tổ tiên cách 1 bước), ta tiền xử lý bảng <code>up[k][v]</code> = tổ tiên của v cách <b>2<sup>k</sup></b> bước, với công thức truy hồi:</p>
+  <pre><span class="fn">up</span>[k][v] = <span class="fn">up</span>[k-1][ <span class="fn">up</span>[k-1][v] ]</pre>
+  <p>Vì mọi số nguyên đều viết được dưới dạng tổng các luỹ thừa của 2 (dạng nhị phân), nên nhảy <code>d</code> bước bất kỳ chỉ cần tối đa <code>log₂(d)</code> lần nhảy — thay vì <code>d</code> lần leo.</p>
+
+  <div class="card">
+    <div class="controls">
+      <span class="hint">Chọn một đỉnh để xem bảng nhảy <code>up[k][v]</code> của nó:</span>
+      <select id="jumpSelect"></select>
+    </div>
+    <div id="jumpTableWrap"></div>
+  </div>
+
+  <div class="card">
+    <div class="controls">
+      <span class="hint">Minh hoạ: nhảy <b id="jumpTargetLabel"></b> bước lên từ đỉnh đã chọn, ghép từ các luỹ thừa của 2</span>
+      <button id="jumpDemoBtn">▶ Chạy minh hoạ</button>
+    </div>
+    <div class="log" id="jumpLog"></div>
+  </div>
+
+  <h2>4. LCA bằng binary lifting — thuật toán đầy đủ</h2>
+  <p>Kết hợp hai ý ở trên: dùng bảng nhảy để (1) đưa đỉnh sâu hơn lên ngang hàng, rồi (2) nhảy cả hai đỉnh lên cùng lúc theo thứ tự bit giảm dần, dừng ngay trước khi hai đỉnh trùng nhau — LCA sẽ là <code>parent</code> của vị trí dừng đó.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <pre><span class="kw">const</span> <span class="tp">int</span> MAXn = 2e5+5, LOG = 18;
+<span class="tp">int</span> up[LOG][MAXn], depth[MAXn];
+<span class="tp">vector</span>&lt;<span class="tp">int</span>&gt; adj[MAXn];
+
+<span class="tp">void</span> <span class="fn">dfs</span>(<span class="tp">int</span> u, <span class="tp">int</span> p){
+    up[0][u] = p;
+    <span class="kw">for</span>(<span class="tp">int</span> k = 1; k &lt; LOG; k++)
+        up[k][u] = up[k-1][ up[k-1][u] ];
+    <span class="kw">for</span>(<span class="tp">int</span> v : adj[u]) <span class="kw">if</span>(v != p){
+        depth[v] = depth[u] + 1;
+        <span class="fn">dfs</span>(v, u);
+    }
+}
+
+<span class="tp">int</span> <span class="fn">lca</span>(<span class="tp">int</span> u, <span class="tp">int</span> v){
+    <span class="kw">if</span>(depth[u] &lt; depth[v]) <span class="fn">swap</span>(u, v);
+    <span class="tp">int</span> diff = depth[u] - depth[v];
+    <span class="kw">for</span>(<span class="tp">int</span> k = 0; k &lt; LOG; k++)
+        <span class="kw">if</span>((diff &gt;&gt; k) &amp; 1) u = up[k][u];
+
+    <span class="kw">if</span>(u == v) <span class="kw">return</span> u;
+
+    <span class="kw">for</span>(<span class="tp">int</span> k = LOG-1; k &gt;= 0; k--)
+        <span class="kw">if</span>(up[k][u] != up[k][v])
+            u = up[k][u], v = up[k][v];
+
+    <span class="kw">return</span> up[0][u]; <span class="cm">// = up[0][v]</span>
+}</pre>
+    </div>
+    <div class="card">
+      <p style="margin-top:0;"><b style="color:var(--amber)">Vì sao vòng thứ hai chạy từ k lớn → nhỏ?</b><br>
+      Ta muốn nhảy <i>xa nhất có thể mà vẫn chưa vượt qua LCA</i>. Nếu <code>up[k][u] != up[k][v]</code>, nghĩa là nhảy 2<sup>k</sup> bước vẫn còn ở dưới LCA (an toàn), nên ta nhảy luôn. Duyệt k giảm dần đảm bảo không bỏ lỡ bước nhảy lớn nào.</p>
+      <p><b style="color:var(--green)">Độ phức tạp:</b><br>
+      Tiền xử lý: <code>O(n log n)</code><br>
+      Mỗi truy vấn LCA: <code>O(log n)</code><br>
+      So với leo từng bước <code>O(depth)</code> mỗi truy vấn — lợi thế rõ rệt khi có nhiều truy vấn (Q lần) trên cây sâu: <code>O(n log n + Q log n)</code>.</p>
+      <p><b style="color:var(--cyan)">Ứng dụng thường gặp:</b> truy vấn khoảng cách hai đỉnh <code>depth[u]+depth[v]-2·depth[lca]</code>, k-th ancestor, kiểm tra tổ tiên–con cháu, min/max cạnh trên đường đi (Kruskal + LCA), rerooting.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ---------- tree data ----------
+const edges = [
+  [1,2],[1,3],[1,4],
+  [2,5],[2,6],
+  [3,7],
+  [4,8],[4,9],
+  [5,10],[5,11],
+  [6,14],
+  [7,12],
+  [9,13],
+  [12,15],[15,16],[16,17],[17,18],
+  [13,19]
+];
+const N = 19;
+const adj = {};
+for(let i=1;i<=N;i++) adj[i]=[];
+edges.forEach(([a,b])=>{ adj[a].push(b); adj[b].push(a); });
+
+const parent = {}, depth = {}, order = [];
+(function dfs(u,p,d){
+  parent[u]=p; depth[u]=d; order.push(u);
+  adj[u].forEach(v=>{ if(v!==p) dfs(v,u,d+1); });
+})(1,0,0);
+
+// binary lifting table
+const LOG = 5; // 2^4=16 > max depth 7
+const up = Array.from({length:LOG},()=>({}));
+order.forEach(u=>{ up[0][u] = parent[u] || u; });
+for(let k=1;k<LOG;k++){
+  order.forEach(u=>{ up[k][u] = up[k-1][ up[k-1][u] ]; });
+}
+
+// ---------- layout ----------
+let leafCounter = 0;
+const xpos = {}, ypos = {};
+const levelH = 60, topPad = 40, leafGap = 46;
+(function layout(u,p){
+  const children = adj[u].filter(v=>v!==p);
+  if(children.length===0){
+    xpos[u] = leafCounter * leafGap + 40;
+    leafCounter++;
+  } else {
+    children.forEach(c=>layout(c,u));
+    const xs = children.map(c=>xpos[c]);
+    xpos[u] = (Math.min(...xs)+Math.max(...xs))/2;
+  }
+  ypos[u] = topPad + depth[u]*levelH;
+})(1,0);
+
+// ---------- render tree ----------
+const svg = document.getElementById('tree');
+svg.setAttribute('viewBox', `0 0 ${leafCounter*leafGap+80} ${topPad+ (Math.max(...Object.values(depth))+1)*levelH + 20}`);
+
+edges.forEach(([a,b])=>{
+  const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+  line.setAttribute('x1',xpos[a]); line.setAttribute('y1',ypos[a]);
+  line.setAttribute('x2',xpos[b]); line.setAttribute('y2',ypos[b]);
+  line.classList.add('edge');
+  line.id = `edge-${Math.min(a,b)}-${Math.max(a,b)}`;
+  svg.appendChild(line);
+});
+
+order.forEach(u=>{
+  const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+  g.classList.add('node'); g.id = `node-${u}`;
+  const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+  c.setAttribute('cx',xpos[u]); c.setAttribute('cy',ypos[u]); c.setAttribute('r',15);
+  const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+  t.setAttribute('x',xpos[u]); t.setAttribute('y',ypos[u]+4);
+  t.textContent = u;
+  g.appendChild(c); g.appendChild(t);
+  g.addEventListener('click',()=>onPick(u));
+  svg.appendChild(g);
+});
+
+// ---------- interaction: pick u, v ----------
+let picked = [];
+const resultBox = document.getElementById('result');
+
+function clearHighlights(){
+  order.forEach(u=>{
+    document.getElementById(`node-${u}`).classList.remove('u','v','lca');
+  });
+  edges.forEach(([a,b])=>{
+    const e = document.getElementById(`edge-${Math.min(a,b)}-${Math.max(a,b)}`);
+    e.classList.remove('path','pathv');
+  });
+  resultBox.classList.remove('show');
+}
+
+function pathToRoot(u){
+  const p = [];
+  while(u!==0){ p.push(u); u = parent[u]; }
+  return p;
+}
+
+function highlightPath(path, cls){
+  for(let i=0;i<path.length-1;i++){
+    const a=path[i], b=path[i+1];
+    const e = document.getElementById(`edge-${Math.min(a,b)}-${Math.max(a,b)}`);
+    e.classList.add(cls);
+  }
+}
+
+function onPick(u){
+  if(picked.length>=2){ picked=[]; clearHighlights(); }
+  picked.push(u);
+  clearHighlights();
+  if(picked.length>=1) document.getElementById(`node-${picked[0]}`).classList.add('u');
+  if(picked.length>=2) document.getElementById(`node-${picked[1]}`).classList.add('v');
+
+  if(picked.length===2){
+    const [uu,vv] = picked;
+    const pu = pathToRoot(uu), pv = pathToRoot(vv);
+    highlightPath(pu,'path');
+    highlightPath(pv,'pathv');
+    const setV = new Set(pv);
+    let lca = null;
+    for(const node of pu){ if(setV.has(node)){ lca = node; break; } }
+    const lcaEl = document.getElementById(`node-${lca}`);
+    lcaEl.classList.add('lca');
+    const pulse = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    pulse.setAttribute('cx',xpos[lca]); pulse.setAttribute('cy',ypos[lca]); pulse.setAttribute('r',26);
+    pulse.setAttribute('fill','none'); pulse.setAttribute('stroke','var(--red)'); pulse.classList.add('pulse');
+    svg.appendChild(pulse);
+    setTimeout(()=>pulse.remove(),1100);
+
+    resultBox.textContent = `LCA(${uu}, ${vv}) = ${lca}   ·   depth(${uu})=${depth[uu]}, depth(${vv})=${depth[vv]}, depth(LCA)=${depth[lca]}`;
+    resultBox.classList.add('show');
+  }
+}
+
+document.getElementById('resetBtn').addEventListener('click',()=>{
+  picked=[]; clearHighlights();
+});
+
+// ---------- binary lifting table demo ----------
+const jumpSelect = document.getElementById('jumpSelect');
+order.forEach(u=>{
+  const opt = document.createElement('option');
+  opt.value=u; opt.textContent=`Đỉnh ${u} (depth=${depth[u]})`;
+  jumpSelect.appendChild(opt);
+});
+jumpSelect.value = 18;
+
+function renderJumpTable(){
+  const u = parseInt(jumpSelect.value);
+  let html = '<table><tr><th>k</th>' + Array.from({length:LOG},(_,k)=>`<th>2<sup>${k}</sup></th>`).join('') + '</tr><tr><th>up[k][' + u + ']</th>';
+  for(let k=0;k<LOG;k++){
+    html += `<td>${up[k][u]}</td>`;
+  }
+  html += '</tr></table>';
+  document.getElementById('jumpTableWrap').innerHTML = html;
+  document.getElementById('jumpTargetLabel').textContent = `min(${depth[u]}, depth hiện tại)`;
+}
+renderJumpTable();
+jumpSelect.addEventListener('change', renderJumpTable);
+
+document.getElementById('jumpDemoBtn').addEventListener('click',()=>{
+  const u = parseInt(jumpSelect.value);
+  const d = depth[u]; // jump all the way to root, d steps
+  const log = document.getElementById('jumpLog');
+  log.innerHTML = '';
+  const addLine = (txt)=>{ const div=document.createElement('div'); div.innerHTML=txt; log.appendChild(div); };
+  addLine(`<span class="tag">bắt đầu</span> tại đỉnh ${u}, cần nhảy ${d} bước lên gốc → nhị phân của ${d} là <b>${d.toString(2)}</b>`);
+  let cur = u, remaining = d;
+  for(let k=LOG-1;k>=0;k--){
+    if((remaining>>k)&1){
+      const next = up[k][cur];
+      addLine(`bit 2<sup>${k}</sup> = ${1<<k} được bật → nhảy <span class="tag">up[${k}][${cur}] = ${next}</span>`);
+      cur = next;
+      remaining -= (1<<k);
+    }
+  }
+  addLine(`<span class="tag">kết thúc</span> tại đỉnh ${cur} — đúng bằng gốc, dùng tổng cộng ${d.toString(2).split('').filter(c=>c==='1').length} bước nhảy thay vì ${d} bước leo.`);
+});
+</script>
+</body>
+</html>

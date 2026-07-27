@@ -1,0 +1,65 @@
+Kỹ thuật "Nén tọa độ" (Coordinate Compression) bằng sort + unique + erase sinh ra để giải quyết bài toán: Ta có các giá trị cực lớn (ví dụ $10^9$, $10^{18}$ hoặc số âm) trải dài và thưa thớt, nhưng ta cần biến chúng thành các số nhỏ, liên tiếp ($1, 2, 3...$) để làm chỉ số mảng (index) cho cấu trúc dữ liệu như Segment Tree hay Fenwick Tree, ĐỒNG THỜI vẫn phải giữ nguyên được thứ tự lớn/bé tương đối giữa chúng.
+
+Gom data: Nhét tất cả các giá trị cần nén vào một vector vals.
+
+
+Sắp xếp (sort): Sắp xếp vector vals tăng dần. Lúc này các giá trị đã đúng thứ tự lớn bé, nhưng sẽ có những phần tử bị trùng lặp (ví dụ mảng ban đầu có hai số $100$, thì sau khi sort sẽ đứng cạnh nhau).
+
+
+Lọc trùng (unique + erase):
+Bản chất hàm std::unique không thực sự xóa phần tử. Nó dùng kỹ thuật 2 con trỏ, dồn tất cả các phần tử phân biệt lên đầu vector, và ném các phần tử dư thừa (trùng lặp) về phía cuối. Cuối cùng, nó trả về một con trỏ (iterator) trỏ đến "vị trí kết thúc của mảng các phần tử phân biệt".
+Hàm erase sẽ chặt chém từ vị trí con trỏ đó đến cuối mảng gốc, quét sạch đống rác thừa đi. Cuối cùng ta thu được mảng vals chỉ gồm các giá trị tăng dần tuyệt đối (không trùng).
+
+
+Ánh xạ (lower_bound): Để biết một giá trị x ban đầu biến thành số mấy sau khi nén, ta đem x tìm kiếm nhị phân (lower_bound) trong mảng vals đã lọc. Chỉ số (index) tìm được chính là "tọa độ mới" đã được nén.
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
+
+int32_t main() {
+    ios_base::sync_with_stdio(0); cin.tie(0);
+    
+    // Mảng gốc có các giá trị rất lớn, số âm và có số trùng lặp
+    vector<int> a = {1000000000, -500, 1000000000, 77, -500, 999999};
+    int n = a.size();
+    
+    // 1. Gom data
+    vector<int> vals;
+    for (int i = 0; i < n; i++) {
+        vals.pb(a[i]);
+    }
+    
+    // 2 & 3. CHỈ DẪN CODE: Combo nén unique kinh điển
+    sort(all(vals)); 
+    // Trạng thái vals sau sort: {-500, -500, 77, 999999, 1000000000, 1000000000}
+    
+    vals.erase(unique(all(vals)), vals.end()); 
+    // Trạng thái vals sau khi unique dồn lên đầu: 
+    // {-500, 77, 999999, 1000000000, [rác 1], [rác 2]}
+    // erase() sẽ chém bay phần [rác] ở cuối.
+    // Trạng thái cuối cùng: {-500, 77, 999999, 1000000000}
+    
+    // 4. CHỈ DẪN CODE: Ánh xạ lại mảng a ban đầu sang mảng nén b
+    vector<int> b(n);
+    for (int i = 0; i < n; i++) {
+        // Tìm vị trí của a[i] trong vals
+        // Cộng 1 nếu muốn tọa độ nén bắt đầu từ 1 (để dùng cho Fenwick/Seg Tree)
+        b[i] = lower_bound(all(vals), a[i]) - vals.begin() + 1;
+    }
+    
+    // In thử kết quả
+    cout << "Mang a (goc): ";
+    for (int x : a) cout << x << " ";
+    cout << "\n";
+    
+    cout << "Mang b (nen): ";
+    for (int x : b) cout << x << " ";
+    cout << "\n";
+    
+    return 0;
+}

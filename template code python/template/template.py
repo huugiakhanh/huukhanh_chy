@@ -7,6 +7,7 @@ from bisect import *
 from itertools import *
 from math import *
 from functools import *
+from dataclasses import *
 
 MOD1 = 1000000007
 MOD2 = 1000000009
@@ -41,10 +42,10 @@ def file_io(task):
 
 
 def input_():
-    
+
 
 def output_():
-    
+
 
 def main():
     file_io("name")

@@ -1,0 +1,10 @@
+- Dấu hiệu nhật biết: 
+	+) Bài toán yêu cầu tìm kiếm cạn kiệt (quay lui, đếm tập con, sinh tổ hợp, đồ thị nhỏ...) nhưng giới hạn $N$ hơi lớn để có thể duyệt toàn bộ.
+	+) Ví dụ điển hình nhất là giới hạn N <= 40. Việc duyệt toàn bộ O(2^40) chắc chắn sẽ dẫn đến TLE. Tuy nhiên, nếu giảm xuống còn N <= 20, thì O(2^20) <=> 10^6 lại xử lý rất mượt mà trong giới hạn 1 giây.
+
+- Ý tưởng: 
+	+) Chia: Cắt tập hợp dữ liệu ban đầu làm 2 nửa (mỗi bên $N/2$ phần tử).
+	+) Duyệt độc lập: Xử lý duyệt trâu từng nửa một để lấy ra mọi cấu hình/kết quả có thể có của nửa đó, sau đó lưu vào vector hoặc mảng.
+	+) Gặp nhau ở giữa (Kết hợp): Lấy từng kết quả của nửa 1 đi tìm phần "bù" tương ứng ở nửa 2 để thỏa mãn điều kiện bài toán. Để việc tìm kiếm diễn ra nhanh chóng, ta thường sort kết quả của nửa 2 lại rồi dùng Chặt nhị phân (Binary Search), hoặc dùng Hai con trỏ (Two Pointers).
+
+- Độ phức tạp: O(2^(N/2) * log(2^(N/2))).

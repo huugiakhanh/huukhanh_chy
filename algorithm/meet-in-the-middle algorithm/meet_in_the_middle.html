@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Meet in the Middle</title>
+<style>
+:root{
+  --bg:#0a0e14; --panel:#111722; --border:#1f2937; --text:#c9d1d9;
+  --dim:#6b7684; --accent:#58e6a1; --accent2:#5ac8fa; --warn:#ffb454; --bad:#ff5f56;
+  --mono:'JetBrains Mono','Fira Code',Consolas,monospace;
+}
+*{box-sizing:border-box;}
+body{
+  background:var(--bg); color:var(--text); font-family:var(--mono);
+  margin:0; padding:24px; line-height:1.55;
+}
+h1{color:var(--accent); font-size:22px; margin:0 0 4px;}
+h2{color:var(--accent2); font-size:16px; margin:28px 0 10px; border-left:3px solid var(--accent2); padding-left:10px;}
+.sub{color:var(--dim); font-size:13px; margin-bottom:20px;}
+.card{background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:16px 18px; margin-bottom:14px;}
+p{font-size:13.5px;}
+code, .code-inline{background:#1a2130; color:var(--accent); padding:1px 6px; border-radius:4px; font-size:13px;}
+pre{
+  background:#0d1219; border:1px solid var(--border); border-radius:6px;
+  padding:14px; overflow-x:auto; font-size:12.5px; color:#d6deeb;
+}
+.kw{color:#c792ea;} .fn{color:#82aaff;} .cm{color:#546e7a;} .str{color:#ecc48d;} .num{color:#f78c6c;}
+
+label{font-size:12.5px; color:var(--dim); display:block; margin-bottom:4px;}
+input[type=text]{
+  background:#0d1219; border:1px solid var(--border); color:var(--text);
+  font-family:var(--mono); font-size:13px; padding:8px 10px; border-radius:6px; width:100%;
+}
+.row{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:12px;}
+.row > div{flex:1; min-width:180px;}
+button{
+  background:var(--accent); color:#0a0e14; border:none; font-family:var(--mono);
+  font-weight:700; padding:9px 18px; border-radius:6px; cursor:pointer; font-size:13px;
+}
+button:hover{background:#7bf0b8;}
+.err{color:var(--bad); font-size:12.5px; margin-top:8px;}
+
+.half-box{
+  background:#0d1219; border:1px solid var(--border); border-radius:6px; padding:10px 12px; flex:1; min-width:260px;
+}
+.half-title{font-size:12px; color:var(--dim); margin-bottom:6px; text-transform:uppercase; letter-spacing:.5px;}
+.chip-wrap{display:flex; flex-wrap:wrap; gap:6px;}
+.chip{
+  background:#1a2130; border:1px solid var(--border); border-radius:5px; padding:3px 8px;
+  font-size:12px; color:var(--text);
+}
+.chip.hit{border-color:var(--accent); color:var(--accent); background:#0f2a1e;}
+
+table{width:100%; border-collapse:collapse; font-size:12.5px; margin-top:6px;}
+th,td{border:1px solid var(--border); padding:5px 8px; text-align:center;}
+th{color:var(--dim); font-weight:600;}
+tr.match td{background:#0f2a1e; color:var(--accent); font-weight:700;}
+
+.result{font-size:14px; padding:12px; border-radius:6px; margin-top:12px; font-weight:700;}
+.result.yes{background:#0f2a1e; color:var(--accent); border:1px solid var(--accent);}
+.result.no{background:#2a1414; color:var(--bad); border:1px solid var(--bad);}
+
+.stat{display:flex; gap:18px; flex-wrap:wrap; margin-top:10px;}
+.stat div{font-size:12px; color:var(--dim);}
+.stat b{color:var(--accent2); font-size:14px; display:block;}
+</style>
+</head>
+<body>
+
+<h1>&gt; Meet in the Middle</h1>
+<div class="sub">Kỹ thuật chia để trị cho không gian tìm kiếm mũ // demo: Subset Sum</div>
+
+<div class="card">
+<h2 style="margin-top:0">Ý tưởng</h2>
+<p>Khi <code>n</code> nhỏ (thường ≤ 40) nhưng đủ lớn để duyệt <code>2^n</code> là bất khả thi, ta
+<b style="color:var(--accent)">chia mảng làm 2 nửa</b>, mỗi nửa có <code>n/2</code> phần tử.
+Duyệt toàn bộ <code>2^(n/2)</code> tập con của <b>từng nửa</b> (rẻ hơn nhiều so với <code>2^n</code>),
+rồi <b style="color:var(--accent2)">ghép kết quả hai nửa lại</b> (thường bằng sort + binary search,
+hoặc hash set) để suy ra đáp án cho toàn bộ mảng.</p>
+<p>Độ phức tạp giảm từ <code>O(2^n)</code> xuống còn <code>O(2^(n/2) · log(2^(n/2)))</code> —
+ví dụ <code>n = 40</code>: 2^40 ≈ 10^12 (không khả thi) → 2^20 · 20 ≈ 2·10^7 (chạy được).</p>
+</div>
+
+<div class="card">
+<h2 style="margin-top:0">Demo: Subset Sum bằng Meet in the Middle</h2>
+<p style="color:var(--dim)">Nhập mảng và tổng đích S. Thuật toán sẽ chia mảng làm 2 nửa, sinh tổng mọi tập con
+mỗi nửa, rồi kiểm tra xem có cặp (tổng nửa trái + tổng nửa phải = S) hay không.</p>
+
+<div class="row">
+  <div>
+    <label>Mảng a[] (cách nhau bởi dấu cách)</label>
+    <input type="text" id="arrInput" value="3 34 4 12 5 2 7 9">
+  </div>
+  <div style="max-width:140px">
+    <label>Tổng đích S</label>
+    <input type="text" id="targetInput" value="9">
+  </div>
+</div>
+<button onclick="runDemo()">Chạy thuật toán</button>
+<div id="errBox" class="err"></div>
+<div id="output"></div>
+</div>
+
+<div class="card">
+<h2 style="margin-top:0">Cài đặt C++</h2>
+<pre><span class="kw">const</span> <span class="kw">int</span> N = <span class="num">40</span>;
+<span class="kw">int</span> n; <span class="kw">long</span> <span class="kw">long</span> a[N], S;
+
+<span class="kw">void</span> <span class="fn">genSums</span>(<span class="kw">int</span> l, <span class="kw">int</span> r, vector&lt;<span class="kw">long</span> <span class="kw">long</span>&gt;&amp; res) {
+    <span class="kw">int</span> len = r - l;
+    <span class="kw">for</span> (<span class="kw">int</span> mask = <span class="num">0</span>; mask &lt; (<span class="num">1</span> &lt;&lt; len); mask++) {
+        <span class="kw">long</span> <span class="kw">long</span> sum = <span class="num">0</span>;
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; len; i++)
+            <span class="kw">if</span> (mask &gt;&gt; i &amp; <span class="num">1</span>) sum += a[l + i];
+        res.push_back(sum);
+    }
+}
+
+<span class="kw">bool</span> <span class="fn">solve</span>() {
+    <span class="kw">int</span> mid = n / <span class="num">2</span>;
+    vector&lt;<span class="kw">long</span> <span class="kw">long</span>&gt; left, right;
+    genSums(<span class="num">0</span>, mid, left);      <span class="cm">// 2^(n/2) tập con nửa trái</span>
+    genSums(mid, n, right);     <span class="cm">// 2^(n-n/2) tập con nửa phải</span>
+
+    sort(right.begin(), right.end());
+    <span class="kw">for</span> (<span class="kw">long</span> <span class="kw">long</span> x : left) {
+        <span class="cm">// cần y = S - x trong nửa phải -&gt; binary search</span>
+        <span class="kw">if</span> (binary_search(right.begin(), right.end(), S - x))
+            <span class="kw">return</span> <span class="kw">true</span>;
+    }
+    <span class="kw">return</span> <span class="kw">false</span>;
+}</pre>
+<p style="color:var(--dim)">Biến thể: nếu cần <b>đếm số cặp</b> hoặc <b>k gần nhất</b> thay vì chỉ tồn tại/không,
+dùng <code>lower_bound</code>/<code>upper_bound</code> trên mảng <code>right</code> đã sort thay vì
+<code>binary_search</code>.</p>
+</div>
+
+<div class="card">
+<h2 style="margin-top:0">Khi nào dùng?</h2>
+<p>• <b style="color:var(--accent2)">Subset sum / knapsack</b> với n ≤ 40, giá trị lớn (không dùng được DP theo giá trị).<br>
+• Đếm <b style="color:var(--accent2)">số cặp/bộ</b> thỏa điều kiện tổng/XOR trong tập lớn, chia thành 2 tập con độc lập.<br>
+• Bài toán mà không gian trạng thái là <code>2^n</code> nhưng có thể tách thành 2 nửa <b>độc lập</b>
+rồi ghép bằng sort/hash — ví dụ đếm subset XOR = k, 4-SUM, một số bài Knapsack đếm phương án.<br>
+• <b style="color:var(--warn)">Điều kiện tiên quyết:</b> phải ghép được kết quả hai nửa hiệu quả (thường O(log) hoặc O(1) mỗi lần), nếu không sẽ mất hết lợi ích.</p>
+</div>
+
+<script>
+function parseInts(str){
+  return str.trim().split(/\s+/).filter(x=>x.length).map(Number);
+}
+
+function genSums(arr){
+  const n = arr.length;
+  const res = []; // {sum, mask}
+  for(let mask=0; mask<(1<<n); mask++){
+    let sum=0;
+    for(let i=0;i<n;i++) if(mask & (1<<i)) sum+=arr[i];
+    res.push({sum, mask});
+  }
+  return res;
+}
+
+function subsetFromMask(arr, mask){
+  const out=[];
+  for(let i=0;i<arr.length;i++) if(mask & (1<<i)) out.push(arr[i]);
+  return out;
+}
+
+function runDemo(){
+  const errBox = document.getElementById('errBox');
+  const out = document.getElementById('output');
+  errBox.textContent=''; out.innerHTML='';
+
+  const arr = parseInts(document.getElementById('arrInput').value);
+  const target = Number(document.getElementById('targetInput').value.trim());
+
+  if(arr.length===0 || arr.some(isNaN)){
+    errBox.textContent = 'Mảng không hợp lệ.'; return;
+  }
+  if(isNaN(target)){
+    errBox.textContent = 'Tổng đích không hợp lệ.'; return;
+  }
+  if(arr.length>20){
+    errBox.textContent = 'Demo giới hạn n ≤ 20 để tránh treo trình duyệt (thuật toán thật xử lý được n ≤ 40).'; return;
+  }
+
+  const mid = Math.floor(arr.length/2);
+  const leftArr = arr.slice(0, mid);
+  const rightArr = arr.slice(mid);
+
+  const leftSums = genSums(leftArr);
+  const rightSums = genSums(rightArr);
+
+  const rightSorted = [...rightSums].sort((a,b)=>a.sum-b.sum);
+  const rightMap = new Map();
+  rightSums.forEach(r=>{ if(!rightMap.has(r.sum)) rightMap.set(r.sum, r.mask); });
+
+  let matchLeft=null, matchRight=null;
+  for(const l of leftSums){
+    const need = target - l.sum;
+    if(rightMap.has(need)){ matchLeft=l; matchRight={sum:need, mask:rightMap.get(need)}; break; }
+  }
+
+  let html = '';
+
+  html += `<div class="row">
+    <div class="half-box">
+      <div class="half-title">Nửa trái (${leftArr.length} phần tử): [${leftArr.join(', ')}]</div>
+      <div style="color:var(--dim); font-size:12px; margin-bottom:6px">Sinh ${leftSums.length} tổng tập con (2^${leftArr.length})</div>
+      <div class="chip-wrap">${leftSums.map(l=>{
+        const hit = matchLeft && l.mask===matchLeft.mask;
+        return `<span class="chip ${hit?'hit':''}">{${subsetFromMask(leftArr,l.mask).join(',')}} = ${l.sum}</span>`;
+      }).join('')}</div>
+    </div>
+    <div class="half-box">
+      <div class="half-title">Nửa phải (${rightArr.length} phần tử): [${rightArr.join(', ')}]</div>
+      <div style="color:var(--dim); font-size:12px; margin-bottom:6px">Sinh ${rightSums.length} tổng tập con (2^${rightArr.length}), đã sort để binary search</div>
+      <div class="chip-wrap">${rightSorted.map(r=>{
+        const hit = matchRight && r.mask===matchRight.mask;
+        return `<span class="chip ${hit?'hit':''}">{${subsetFromMask(rightArr,r.mask).join(',')}} = ${r.sum}</span>`;
+      }).join('')}</div>
+    </div>
+  </div>`;
+
+  if(matchLeft){
+    const leftSet = subsetFromMask(leftArr, matchLeft.mask);
+    const rightSet = subsetFromMask(rightArr, matchRight.mask);
+    html += `<div class="result yes">✓ TÌM THẤY: {${leftSet.join(', ')}} (tổng ${matchLeft.sum}) + {${rightSet.join(', ')}} (tổng ${matchRight.sum}) = ${target}</div>`;
+  } else {
+    html += `<div class="result no">✗ Không tồn tại tập con nào có tổng = ${target}</div>`;
+  }
+
+  html += `<div class="stat">
+    <div><b>${leftSums.length}</b>tập con nửa trái</div>
+    <div><b>${rightSums.length}</b>tập con nửa phải</div>
+    <div><b>${leftSums.length+rightSums.length}</b>tổng số duyệt (thay vì 2^${arr.length} = ${Math.pow(2,arr.length)})</div>
+  </div>`;
+
+  out.innerHTML = html;
+}
+
+runDemo();
+</script>
+</body>
+</html>

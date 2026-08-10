@@ -1,0 +1,7 @@
+- Một bài toán DP Bitmask thường có mảng trạng thái (State) 2 chiều: dp[mask][i]
+	+) trong đó mask là một số nguyên biểu diễn tập hợp các đỉnh hoặc phần tử đã được xử lý
+	+) i là phần tử cuối cùng được thêm vào tập hợp hoặc là vị trị hiện tại đang đứng
+- Quá trình chuyển trạng thái:
+	+) duyệt mask từ 0 đến 2^n - 1, với mỗi mask, bạn thử thêm một phần tử j chưa có trong mask để tạo trạng thái mới
+		next_mask = mask | (1LL << j)
+

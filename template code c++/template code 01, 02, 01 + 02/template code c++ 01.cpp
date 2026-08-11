@@ -22,7 +22,7 @@
 
 #include <bits/stdc++.h>
 
-#define FOR(i, n) for(long long (i) = 0; (i) < (n); ++(i))
+#define FOR(i, l, r) for(long long (i) = (l)); (i) < (r); ++(i))
 #define forr(i, l, r) for (long long (i) = (l); i <= (r); ++(i))
 #define rfor(i, r, l) for (long long (i) = (r); i >= (l); --(i))
 #define SORT(a) sort((a).begin(), (a).end())
@@ -31,7 +31,7 @@
 #define for_Cout(a, char) for (auto c : (a)) cout << c << char;
 #define REV(s) reverse((s).begin(), (s).end())
 #define mset(a, valueptr) memset(a, valueptr, sizeof a)
-#define biton(x, i) ((x) >> (i) & 1)
+#define biton(x, i) (((x) >> (i)) & 1)
 #define MASK(i) (1ll << (i))
 #define TIME cerr << "Time: " << 1.0 * clock() / CLOCKS_PER_SEC << "s\n"
 #define F first
@@ -87,7 +87,7 @@ constexpr int int_0x3f = 1061109567;
 constexpr long long ll_0x3f = 4557430888798830399LL;
 constexpr int base1= 310;
 constexpr int base2 = 256;
-constexpr long long MAXn = 100007;
+constexpr long long MAXn = 47;
 
 inline void input() noexcept(true) {
 

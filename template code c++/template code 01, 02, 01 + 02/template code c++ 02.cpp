@@ -24,10 +24,10 @@
 #include <ext/pb_ds/tree_policy.hpp>
 #include <ext/pb_ds/assoc_container.hpp>
 
-#define FOR(i, n) for(long long (i) = 0; (i) < (n); ++(i))
-#define forr(i, l, r) for (long long i = (l); i <= (r); ++i)
-#define rfor(i, r, l) for (long long i = (r); i >= (l); --i)
-#define biton(x, i) ((x) >> (i) & 1)
+#define FOR(i, l, r) for(long long (i) = (l)); (i) < (r); ++(i))
+#define forr(i, l, r) for (long long (i) = (l); i <= (r); ++(i))
+#define rfor(i, r, l) for (long long (i) = (r); i >= (l); --(i))
+#define biton(x, i) (((x) >> (i)) & 1)
 #define MASK(i) (1ll << (i))
 #define TIMEi cerr << "Time input: " << 1.0 * clock() / CLOCKS_PER_SEC << "s\n"
 #define TIMEo cerr << "Time output: " << 1.0 * clock() / CLOCKS_PER_SEC << "s\n"

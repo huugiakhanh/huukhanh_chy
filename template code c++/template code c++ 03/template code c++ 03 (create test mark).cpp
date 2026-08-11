@@ -10,9 +10,9 @@
 
 #include <bits/stdc++.h>
 
-#define FOR(i, n) for(long long (i) = 0; (i) < (n); ++(i))
-#define forr(i, l, r, k) for (long long i = (l); i <= (r); i += (k))
-#define rfor(i, r, l, k) for (long long i = (r); i >= (l); i -= (k))
+#define FOR(i, l, r) for(long long (i) = (l)); (i) < (r); ++(i))
+#define forr(i, l, r) for (long long (i) = (l); i <= (r); ++(i))
+#define rfor(i, r, l) for (long long (i) = (r); i >= (l); --(i))
 #define for_Cout(a, char) for (auto c : (a)) cout << c << char;
 #define TIME cerr << "Time: " << 1.0 * clock() / CLOCKS_PER_SEC << "s\n"
 #define pii pair<int, int>

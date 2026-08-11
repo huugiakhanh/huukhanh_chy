@@ -17,7 +17,8 @@
 #ifdef anhnguyet_huukhanh
     #pragma GCC optimize("O3")
     #pragma GCC optimize("unroll-loops")
-    #pragma GCC target("avx,avx2")
+    #pragma GCC optimize("inline")
+    // #pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
 #endif
 
 #include <bits/stdc++.h>
@@ -34,6 +35,7 @@
 #define REV(s) reverse((s).begin(), (s).end())
 #define mset(a, valueptr) memset(a, valueptr, sizeof a)
 #define biton(x, i) (((x) >> (i)) & 1)
+#define setbit(x, i) ((x) | (1 << (i)))
 #define MASK(i) (1ll << (i))
 #define TIMEi cerr << "Time input: " << 1.0 * clock() / CLOCKS_PER_SEC << "s\n"
 #define TIMEo cerr << "Time output: " << 1.0 * clock() / CLOCKS_PER_SEC << "s\n"

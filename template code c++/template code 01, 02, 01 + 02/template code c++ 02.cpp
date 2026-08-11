@@ -18,6 +18,7 @@
     #pragma GCC optimize("O3")
     #pragma GCC optimize("unroll-loops")
     #pragma GCC optimize("inline")
+    // #pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
 #endif
 
 #include <bits/stdc++.h>
@@ -28,6 +29,7 @@
 #define forr(i, l, r) for (long long (i) = (l); i <= (r); ++(i))
 #define rfor(i, r, l) for (long long (i) = (r); i >= (l); --(i))
 #define biton(x, i) (((x) >> (i)) & 1)
+#define setbit(x, i) ((x) | (1 << (i)))
 #define MASK(i) (1ll << (i))
 #define TIMEi cerr << "Time input: " << 1.0 * clock() / CLOCKS_PER_SEC << "s\n"
 #define TIMEo cerr << "Time output: " << 1.0 * clock() / CLOCKS_PER_SEC << "s\n"

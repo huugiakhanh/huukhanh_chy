@@ -24,7 +24,7 @@
 #include <ext/pb_ds/tree_policy.hpp>
 #include <ext/pb_ds/assoc_container.hpp>
 
-#define FOR(i, l, r) for(long long (i) = (l)); (i) < (r); ++(i))
+#define FOR(i, l, r) for(long long (i) = (l); (i) < (r); ++(i))
 #define forr(i, l, r) for (long long (i) = (l); i <= (r); ++(i))
 #define rfor(i, r, l) for (long long (i) = (r); i >= (l); --(i))
 #define SORT(a) sort((a).begin(), (a).end())

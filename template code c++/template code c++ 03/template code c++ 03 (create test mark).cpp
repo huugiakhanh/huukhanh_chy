@@ -10,7 +10,7 @@
 
 #include <bits/stdc++.h>
 
-#define FOR(i, l, r) for(long long (i) = (l)); (i) < (r); ++(i))
+#define FOR(i, l, r) for(long long (i) = (l); (i) < (r); ++(i))
 #define forr(i, l, r) for (long long (i) = (l); i <= (r); ++(i))
 #define rfor(i, r, l) for (long long (i) = (r); i >= (l); --(i))
 #define for_Cout(a, char) for (auto c : (a)) cout << c << char;
